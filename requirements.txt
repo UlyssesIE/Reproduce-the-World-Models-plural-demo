@@ -1,0 +1,50 @@
+# ============================================================
+# World Models (Ha & Schmidhuber, 2018) — from-scratch reproduction
+# Python 3.10 / 3.11, CUDA 12.x, single RTX 3060 6GB
+# Pipeline: VAE + MDN-RNN + CMA-ES controller
+# ============================================================
+
+# --- Deep learning core ---
+# Install with the CUDA 12.1 wheels (RTX 3060 is sm_86):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+torch>=2.2,<2.6
+torchvision>=0.17,<0.21
+
+# --- Numerical / statistical ---
+# Needed for mixture-of-Gaussians sampling, logsumexp, covariance updates
+numpy>=1.26,<3.0
+scipy>=1.11
+
+# --- RL environments: CarRacing ---
+# Use Gymnasium, NOT the legacy gym. CarRacing-v3 with continuous=True
+# is the modern equivalent of the original CarRacing-v0.
+gymnasium[box2d]>=1.0
+# gymnasium[box2d] pulls in: box2d-py (requires system-level swig), pygame
+
+# --- RL environments: VizDoom ---
+# Used for the second experiment group in the paper (DoomTakeCover).
+# Requires Python <= 3.11 (vizdoom 1.2.x has no 3.12 wheels).
+vizdoom>=1.2.3
+
+# --- Image processing (64x64 preprocessing + video export) ---
+# Use the headless build on servers without a display
+opencv-python-headless>=4.9
+Pillow>=10.0
+
+# --- Evolution strategy: CMA-ES controller ---
+# Pure Python + NumPy, runs on CPU only
+cma>=3.3
+
+# --- Visualization / logging / utilities ---
+matplotlib>=3.8
+pandas>=2.1          # log per-generation fitness and regression metrics to CSV
+tqdm>=4.66
+tensorboard>=2.15
+pyyaml>=6.0          # store hyperparameters for ablations
+
+# --- Video export (dream rollouts, driving clips) ---
+imageio>=2.34
+imageio-ffmpeg>=0.4.9
+
+# --- Testing ---
+pytest>=8.0
