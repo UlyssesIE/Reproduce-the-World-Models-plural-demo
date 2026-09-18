@@ -1,0 +1,15 @@
+{
+  "requested": 2000,
+  "seed_offset": 0,
+  "max_episode_steps": 1000,
+  "on_disk": 2000,
+  "mean_steps": null,
+  "mean_return": null,
+  "raw_frame_shape": [
+    96,
+    96,
+    3
+  ],
+  "frame_dtype": "uint8",
+  "policy": "uniform random (env.action_space.sample)"
+}
