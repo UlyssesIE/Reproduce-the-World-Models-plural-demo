@@ -1,0 +1,70 @@
+# =============================================================================
+# .gitignore -- Reproducing World Models (Ha & Schmidhuber, 2018)
+#
+# Measured sizes on this machine (RTX 3060 Laptop):
+#   data/raw/           ~55 GB   raw CarRacing frames, 26 MB per rollout
+#   data/*_frames.npy   ~2.8 GB  memmap frame cache (per 100 rollouts)
+#   data/*_latents/     ~150 MB  encoded latents, float16
+#   runs/               ~640 MB  checkpoints (two thirds is Adam state)
+# All of it is regenerable by re-running the pipeline; see README.
+# =============================================================================
+
+# ---- Data: raw rollouts and everything derived from them --------------------
+# Exclude directory *contents*, not the directory itself: git cannot re-include
+# a file whose parent directory is excluded, and the tiny provenance files
+# below must survive.
+data/raw/*
+data/pilot/*
+data/explore/*
+
+# memmap frame caches
+data/*.npy
+
+# latent datasets: exclude the arrays, keep the index (mean/std + provenance)
+data/*_latents/*.npy
+
+# small provenance files that document exactly what was collected
+!data/**/manifest.json
+!data/**/index.json
+
+# ---- Training artefacts -----------------------------------------------------
+# Each checkpoint is ~42 MB (14 MB weights + 28 MB Adam moments). The optimiser
+# state only matters for resuming, which finished runs no longer do.
+runs/**
+!runs/**/
+# keep the training curves: cited as evidence in notes/Note3.md
+!runs/**/log.jsonl
+
+# ---- Generated figures ------------------------------------------------------
+# Regenerate with scripts/vae/recon_grid.py and scripts/mdn/dream_rollout.py.
+# Force-add a specific figure when a note cites it: git add -f artifacts/x.png
+artifacts/*
+!artifacts/.gitkeep
+
+# ---- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- Virtual environments ---------------------------------------------------
+.venv/
+venv/
+env/
+
+# ---- Editor / OS ------------------------------------------------------------
+.vscode/*
+!.vscode/settings.json
+.idea/
+Thumbs.db
+desktop.ini
+
+# ---- Logs, temp files, secrets ----------------------------------------------
+*.log
+*.tmp
+*.bak
+.env
+.env.*
