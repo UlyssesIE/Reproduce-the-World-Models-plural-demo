@@ -9,9 +9,10 @@ import argparse
 import json
 import sys
 import time
+import math
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import numpy as np
 import torch
@@ -37,6 +38,9 @@ def parse_args():
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--log-every", type=int, default=50)
     p.add_argument("--resume", default=None)
+    p.add_argument("--norm-min-std", type=float, default=0.0,
+                   help="floor for the latent normalisation std; 0 = plain "
+                   "normalisation (paper behaviour), 0.1 recommended")
     return p.parse_args()
 
 
@@ -126,6 +130,7 @@ def main() -> int:
             print(f"  [ckpt] new best val nll {best:.4f} -> best.pt")
 
     print(f"\ndone. best val nll {best:.4f}. checkpoints in {out}")
+    
     return 0
 
 
