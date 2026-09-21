@@ -1,0 +1,100 @@
+{"gen": 0, "search_mean_return": -29.911508962452174, "search_best_return": 93.34889560254159, "search_std_return": 50.70552657885113, "secs": 513.6, "new_best": true}
+{"gen": 1, "search_mean_return": -1.705319230764701, "search_best_return": 175.0741808095148, "search_std_return": 66.5531517968872, "secs": 1020.9, "new_best": true}
+{"gen": 2, "search_mean_return": 38.480599012574274, "search_best_return": 172.35867246161672, "search_std_return": 71.9742644622818, "secs": 1525.6}
+{"gen": 3, "search_mean_return": 66.50925817709214, "search_best_return": 230.5878927540764, "search_std_return": 77.2215263562962, "secs": 2015.4, "new_best": true}
+{"gen": 4, "search_mean_return": 80.07543378482475, "search_best_return": 421.78114466999, "search_std_return": 109.47227816741591, "secs": 2488.1, "new_best": true}
+{"gen": 5, "search_mean_return": 75.392803238592, "search_best_return": 255.4660097992548, "search_std_return": 80.04397462267615, "secs": 2963.7}
+{"gen": 6, "search_mean_return": 130.64457360808407, "search_best_return": 244.60894660543482, "search_std_return": 64.14531320601887, "secs": 3456.9}
+{"gen": 7, "search_mean_return": 60.57112132935945, "search_best_return": 173.94531459481968, "search_std_return": 62.7779487870687, "secs": 3939.4}
+{"gen": 8, "search_mean_return": 122.99671223175508, "search_best_return": 318.1934102588544, "search_std_return": 102.50871064493184, "secs": 4416.8}
+{"gen": 9, "search_mean_return": 133.0184201359877, "search_best_return": 329.8573458694216, "search_std_return": 110.3578050491011, "secs": 4901.8}
+{"gen": 10, "search_mean_return": 198.43717586820216, "search_best_return": 365.48101193700336, "search_std_return": 62.72050143040512, "secs": 5361.4}
+{"gen": 11, "search_mean_return": 214.38956014565474, "search_best_return": 475.1734522545668, "search_std_return": 128.89768945171278, "secs": 5834.1, "new_best": true}
+{"gen": 12, "search_mean_return": 187.57347408645936, "search_best_return": 340.7853521962311, "search_std_return": 92.13095472661307, "secs": 6291.1}
+{"gen": 13, "search_mean_return": 193.27257800770812, "search_best_return": 483.9673818639087, "search_std_return": 153.3729509413216, "secs": 6749.6, "new_best": true}
+{"gen": 14, "search_mean_return": 205.91902482447978, "search_best_return": 547.7239857272539, "search_std_return": 159.57280826427242, "secs": 7218.1, "new_best": true}
+{"gen": 15, "search_mean_return": 299.9982888466224, "search_best_return": 427.0159356294467, "search_std_return": 74.96937621286816, "secs": 7692.7}
+{"gen": 16, "search_mean_return": 245.67898112397356, "search_best_return": 441.77083001454264, "search_std_return": 108.06510352569462, "secs": 8160.8}
+{"gen": 17, "search_mean_return": 257.67025200546743, "search_best_return": 513.0595017136487, "search_std_return": 135.43857759819886, "secs": 8636.1}
+{"gen": 18, "search_mean_return": 277.6046614633049, "search_best_return": 488.76954949727804, "search_std_return": 101.7627270743661, "secs": 9108.5}
+{"gen": 19, "search_mean_return": 251.5128689890688, "search_best_return": 519.0278047470489, "search_std_return": 128.7492086949031, "secs": 9582.3}
+{"gen": 20, "search_mean_return": 318.12951090869814, "search_best_return": 500.137629594381, "search_std_return": 116.771062509598, "secs": 10052.5}
+{"gen": 21, "search_mean_return": 258.881613483077, "search_best_return": 435.64642123264315, "search_std_return": 120.90336998837837, "secs": 10521.5}
+{"gen": 22, "search_mean_return": 268.1033977226697, "search_best_return": 430.6608041977031, "search_std_return": 100.09973467245727, "secs": 10997.8}
+{"gen": 23, "search_mean_return": 258.1004071210364, "search_best_return": 482.1137398282752, "search_std_return": 113.61426669213299, "secs": 11474.6}
+{"gen": 24, "search_mean_return": 266.1890177129651, "search_best_return": 514.0267748740289, "search_std_return": 135.4110095776918, "secs": 11948.7, "eval_mean_return": 495.53079670518144, "eval_std_return": 231.0505188233673, "eval_n": 100}
+{"gen": 25, "search_mean_return": 245.94661366202297, "search_best_return": 405.13510066517375, "search_std_return": 99.88190203636665, "secs": 12781.5}
+{"gen": 26, "search_mean_return": 230.84876673631635, "search_best_return": 371.06487277081953, "search_std_return": 87.84655493838733, "secs": 13249.7}
+{"gen": 27, "search_mean_return": 232.9145034071668, "search_best_return": 412.54944137049284, "search_std_return": 97.50951021370261, "secs": 13727.2}
+{"gen": 28, "search_mean_return": 225.42433838258682, "search_best_return": 387.47093434702685, "search_std_return": 106.84985404651891, "secs": 14203.9}
+{"gen": 29, "search_mean_return": 269.1555153884901, "search_best_return": 385.86401587367965, "search_std_return": 101.0476668676569, "secs": 14688.6}
+{"gen": 30, "search_mean_return": 284.12600475167886, "search_best_return": 439.2184307641105, "search_std_return": 68.62788347805675, "secs": 15163.0}
+{"gen": 31, "search_mean_return": 303.04135297546406, "search_best_return": 461.3397991634844, "search_std_return": 119.9413596276427, "secs": 15635.3}
+{"gen": 32, "search_mean_return": 312.52571238230234, "search_best_return": 423.19615825830454, "search_std_return": 84.58966653476415, "secs": 16108.8}
+{"gen": 33, "search_mean_return": 328.1098392481121, "search_best_return": 515.5364370259094, "search_std_return": 128.98138220657492, "secs": 16585.9}
+{"gen": 34, "search_mean_return": 322.0940835889586, "search_best_return": 422.2690498993356, "search_std_return": 70.14892137290671, "secs": 17051.6}
+{"gen": 35, "search_mean_return": 408.8742469054927, "search_best_return": 537.478186618929, "search_std_return": 72.48964855712211, "secs": 17527.5}
+{"gen": 36, "search_mean_return": 408.9310463540387, "search_best_return": 521.9713960101651, "search_std_return": 80.43558630410972, "secs": 18001.5}
+{"gen": 37, "search_mean_return": 389.0461302729651, "search_best_return": 527.9039181313572, "search_std_return": 96.14004512401313, "secs": 18485.1}
+{"gen": 38, "search_mean_return": 364.4301572506582, "search_best_return": 513.9790421677399, "search_std_return": 120.31379402081636, "secs": 18952.1}
+{"gen": 39, "search_mean_return": 415.7614839966825, "search_best_return": 576.7419853084489, "search_std_return": 100.5571049504978, "secs": 19418.8, "new_best": true}
+{"gen": 40, "search_mean_return": 426.2333527099562, "search_best_return": 515.4189007288841, "search_std_return": 74.23211209626032, "secs": 19883.7}
+{"gen": 41, "search_mean_return": 449.2803688801949, "search_best_return": 547.8121798458649, "search_std_return": 72.97422629815549, "secs": 20357.0}
+{"gen": 42, "search_mean_return": 451.1174715296431, "search_best_return": 534.1437303241347, "search_std_return": 46.42993347905135, "secs": 20836.3}
+{"gen": 43, "search_mean_return": 411.72936363823794, "search_best_return": 543.6275170487025, "search_std_return": 78.15392252078718, "secs": 21306.6}
+{"gen": 44, "search_mean_return": 448.6306091746769, "search_best_return": 556.1796641182186, "search_std_return": 55.54821431756957, "secs": 21782.4}
+{"gen": 45, "search_mean_return": 419.50847238732877, "search_best_return": 563.5561764807408, "search_std_return": 94.25764420030356, "secs": 22262.1}
+{"gen": 46, "search_mean_return": 460.77065311603366, "search_best_return": 584.0966482874194, "search_std_return": 68.01339390306359, "secs": 22724.7, "new_best": true}
+{"gen": 47, "search_mean_return": 428.8673279768006, "search_best_return": 586.9372153736933, "search_std_return": 77.37937306564727, "secs": 23197.7, "new_best": true}
+{"gen": 48, "search_mean_return": 444.7397533683999, "search_best_return": 584.090744589078, "search_std_return": 95.51779640699105, "secs": 23681.2}
+{"gen": 49, "search_mean_return": 424.4127738874708, "search_best_return": 502.1815840453262, "search_std_return": 51.37569809524159, "secs": 24154.5, "eval_mean_return": 579.2741946655574, "eval_std_return": 147.73011979824796, "eval_n": 100}
+{"gen": 50, "search_mean_return": 473.43221149436494, "search_best_return": 675.7598375440949, "search_std_return": 101.61565408564174, "secs": 25014.5, "new_best": true}
+{"gen": 51, "search_mean_return": 436.47901163382403, "search_best_return": 540.5859691446992, "search_std_return": 77.14903929000394, "secs": 25498.2}
+{"gen": 52, "search_mean_return": 436.2788687088443, "search_best_return": 622.5909618891524, "search_std_return": 90.11232659425694, "secs": 25974.9}
+{"gen": 53, "search_mean_return": 478.8374884452035, "search_best_return": 584.9626763621134, "search_std_return": 89.24416067240811, "secs": 26450.1}
+{"gen": 54, "search_mean_return": 470.1314840521628, "search_best_return": 577.4132272670794, "search_std_return": 89.28279880904334, "secs": 26929.3}
+{"gen": 55, "search_mean_return": 467.9862626134411, "search_best_return": 556.6775559045043, "search_std_return": 75.66362341717375, "secs": 27446.4}
+{"gen": 56, "search_mean_return": 450.9980129691089, "search_best_return": 572.4199706691476, "search_std_return": 73.02957286403303, "secs": 27962.8}
+{"gen": 57, "search_mean_return": 458.55744417665306, "search_best_return": 586.4075072095432, "search_std_return": 80.16325192935449, "secs": 28480.6}
+{"gen": 58, "search_mean_return": 513.7998691499151, "search_best_return": 600.9614338273022, "search_std_return": 67.36896529684483, "secs": 28967.9}
+{"gen": 59, "search_mean_return": 494.39149701512395, "search_best_return": 572.1533059419412, "search_std_return": 52.03749218390466, "secs": 29454.4}
+{"gen": 60, "search_mean_return": 493.5374911167183, "search_best_return": 591.1219922013593, "search_std_return": 53.05284185882433, "secs": 29920.3}
+{"gen": 61, "search_mean_return": 509.5072192651066, "search_best_return": 608.0608484444302, "search_std_return": 64.94175871246235, "secs": 30401.0}
+{"gen": 62, "search_mean_return": 475.4177225904466, "search_best_return": 619.002897506825, "search_std_return": 88.22007637476794, "secs": 30869.5}
+{"gen": 63, "search_mean_return": 444.3427018608614, "search_best_return": 586.1323356009939, "search_std_return": 105.93052696288613, "secs": 31343.2}
+{"gen": 64, "search_mean_return": 508.7245093298011, "search_best_return": 625.8866597757669, "search_std_return": 68.76131317103177, "secs": 31822.2}
+{"gen": 65, "search_mean_return": 452.617700898941, "search_best_return": 612.6474461442624, "search_std_return": 110.61513219028507, "secs": 32308.2}
+{"gen": 66, "search_mean_return": 505.6300019149913, "search_best_return": 626.8494079004859, "search_std_return": 88.0581751903181, "secs": 32778.5}
+{"gen": 67, "search_mean_return": 504.63576384219755, "search_best_return": 651.6453818518542, "search_std_return": 82.69830301114152, "secs": 33265.2}
+{"gen": 68, "search_mean_return": 484.4672837364065, "search_best_return": 633.3349907076969, "search_std_return": 83.19395465197728, "secs": 33736.7}
+{"gen": 69, "search_mean_return": 466.52052324127214, "search_best_return": 599.6531533878021, "search_std_return": 81.46258611425252, "secs": 34208.6}
+{"gen": 70, "search_mean_return": 491.97762440957285, "search_best_return": 628.9707777181563, "search_std_return": 66.03013296337183, "secs": 34677.0}
+{"gen": 71, "search_mean_return": 468.5351548711585, "search_best_return": 594.8747716130778, "search_std_return": 81.13330660723989, "secs": 35153.5}
+{"gen": 72, "search_mean_return": 513.2027978945096, "search_best_return": 600.5670761773292, "search_std_return": 54.24551086905884, "secs": 35625.6}
+{"gen": 73, "search_mean_return": 501.62602389251197, "search_best_return": 596.7076305702996, "search_std_return": 56.85128943241434, "secs": 36108.3}
+{"gen": 74, "search_mean_return": 524.9950231365997, "search_best_return": 622.5839979387838, "search_std_return": 87.1510649323676, "secs": 36578.7, "eval_mean_return": 619.6490956828967, "eval_std_return": 179.6130306747357, "eval_n": 100}
+{"gen": 75, "search_mean_return": 493.5151918819846, "search_best_return": 623.7456207886501, "search_std_return": 69.58195582665282, "secs": 37411.9}
+{"gen": 76, "search_mean_return": 544.6244319719442, "search_best_return": 618.9282723765425, "search_std_return": 44.079738477666396, "secs": 37888.7}
+{"gen": 77, "search_mean_return": 515.2989568044577, "search_best_return": 604.9385274200409, "search_std_return": 59.44108889395191, "secs": 38357.0}
+{"gen": 78, "search_mean_return": 532.2513137296039, "search_best_return": 630.3848427362199, "search_std_return": 56.48733063304565, "secs": 38833.9}
+{"gen": 79, "search_mean_return": 499.52800200697334, "search_best_return": 602.729659949083, "search_std_return": 56.84548139786375, "secs": 39307.1}
+{"gen": 80, "search_mean_return": 551.9511886649772, "search_best_return": 608.0557137080523, "search_std_return": 49.08818527886707, "secs": 39787.5}
+{"gen": 81, "search_mean_return": 505.9333855063318, "search_best_return": 614.615245912702, "search_std_return": 56.60240050493438, "secs": 40262.5}
+{"gen": 82, "search_mean_return": 534.9207526149858, "search_best_return": 614.991837438373, "search_std_return": 53.6765028699181, "secs": 40738.5}
+{"gen": 83, "search_mean_return": 569.1480579468041, "search_best_return": 640.7186915362845, "search_std_return": 44.7654404809173, "secs": 41213.3}
+{"gen": 84, "search_mean_return": 530.8224757297082, "search_best_return": 630.9293402241915, "search_std_return": 61.32074397690487, "secs": 41697.9}
+{"gen": 85, "search_mean_return": 523.003132146172, "search_best_return": 647.2043272364298, "search_std_return": 55.55137758508693, "secs": 42180.6}
+{"gen": 86, "search_mean_return": 540.5709785257757, "search_best_return": 637.0091252829395, "search_std_return": 56.76739751349499, "secs": 42674.2}
+{"gen": 87, "search_mean_return": 536.2784085955338, "search_best_return": 593.1077499088589, "search_std_return": 50.69938139546141, "secs": 43164.7}
+{"gen": 88, "search_mean_return": 554.0522545169495, "search_best_return": 650.6521510566336, "search_std_return": 44.92598330407415, "secs": 43651.4}
+{"gen": 89, "search_mean_return": 541.4255557651213, "search_best_return": 639.8586524466986, "search_std_return": 73.89472372003164, "secs": 44136.0}
+{"gen": 90, "search_mean_return": 548.8119112107884, "search_best_return": 653.3474801652849, "search_std_return": 62.05486938963229, "secs": 44626.5}
+{"gen": 91, "search_mean_return": 522.3932092940136, "search_best_return": 622.7794790122778, "search_std_return": 49.41383496096892, "secs": 45115.5}
+{"gen": 92, "search_mean_return": 518.0712885526489, "search_best_return": 632.3975616149323, "search_std_return": 82.06378296104418, "secs": 45602.8}
+{"gen": 93, "search_mean_return": 526.4892104338859, "search_best_return": 644.5203638833245, "search_std_return": 71.14971499579909, "secs": 46099.2}
+{"gen": 94, "search_mean_return": 520.3992255337798, "search_best_return": 628.1371943103259, "search_std_return": 50.67997735084297, "secs": 46579.7}
+{"gen": 95, "search_mean_return": 540.3299644949141, "search_best_return": 599.8995868437398, "search_std_return": 49.60857806366508, "secs": 47065.7}
+{"gen": 96, "search_mean_return": 543.8746656616948, "search_best_return": 654.9920969190746, "search_std_return": 69.62190126727765, "secs": 47549.2}
+{"gen": 97, "search_mean_return": 511.78568975331854, "search_best_return": 612.7921753685487, "search_std_return": 68.72089191209766, "secs": 48043.9}
+{"gen": 98, "search_mean_return": 506.2239168666666, "search_best_return": 616.6765750197976, "search_std_return": 66.62990701433742, "secs": 48535.2}
+{"gen": 99, "search_mean_return": 534.0287438796423, "search_best_return": 614.1900142103848, "search_std_return": 45.45498115660276, "secs": 49032.0, "eval_mean_return": 619.6490956828967, "eval_std_return": 179.6130306747357, "eval_n": 100}

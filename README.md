@@ -1,6 +1,3 @@
-下面是 README 的第一版，按「教授会在 60 秒内扫完」的密度来写：结果前置、偏差压缩成一张表、长论证全部留给 Notes。已按你的要求预留更新位（状态行、roadmap 勾选框、changelog）。
-
----
 
 # World Models — from-scratch reproduction (CarRacing)
 
@@ -21,9 +18,10 @@ numbered **deviation log** with the measurement that decided it.
 | **V (ConvVAE)** reconstruction | **R² = 0.916**, 87.6 % MSE gain | — |
 | **M (MDN-RNN)** density vs persistence | **ΣΔNLL = −94.2, 32/32 dims better** | — |
 | **C (99 params, V-only)** | **525.15 ± 165.50** (100 rollouts) | 632 ± 251 |
-| C (867 params, V + `h_t`) | _pending_ | 906 ± 21 |
+| **C (867 params, V + `h_t`)** | **619.65 ± 179.61** (100 rollouts) | 906 ± 21 |
+| ↳ paired gain from `h_t` | **+94.5** on identical seeds | — |
 
-Full traces: `notes/Note1.md … Note5.md`. Every number above is reproducible from the
+Full traces: `notes/Note1.md … Note6.md`. Every number above is reproducible from the
 scripts in this repository.
 
 > **Note on scope.** This is a reproduction, not a re-implementation of the reported
@@ -79,7 +77,7 @@ scripts/
   mdn/        train_mdnrnn.py  mdn_probe.py  dream_rollout.py  z_dynamics_check.py
   controller/ train_controller.py            # CMA-ES
   tools/      bench_step.py  check_env.py
-notes/        Note1.md … Note5.md             # the deviation log
+notes/        Note1.md … Note6.md             # the deviation log
 runs/         checkpoints, logs, per-run JSON
 data/         raw rollouts (npz), frame cache, latents
 ```
@@ -125,7 +123,7 @@ Three checks that separated "the code runs" from "the number is real" (Note5 §1
 - [x] V accepted — `R² = 0.916` at the dataset's information ceiling
 - [x] M accepted — corrected evidence (EV 0.906, ΔNLL −94.2); action-blind, as the data dictates
 - [x] C, V-only arm (99 params) — **525.15 ± 165.50**
-- [ ] C, full arm (867 params) — the number to beat is **525.15 ± 165.50**
+- [x] C, full arm (867 params) — **619.65 ± 179.61**, +94.5 paired vs V-only (Note6)
 - [ ] `pyproject.toml` (ends the `sys.path` juggling that caused one silent failure)
 - [ ] Probe provenance: record `argv`, hashes and normalisation source in every JSON
 - [ ] Scale data to 2000 existing rollouts — the only lever on action-blindness
@@ -136,6 +134,7 @@ Three checks that separated "the code runs" from "the number is real" (Note5 §1
 
 | date | change |
 | --- | --- |
+| 2026-09-21 | C complete: 867-param arm **619.65 ± 179.61**, +94.5 paired vs V-only (Note6) |
 | 2026-09-20 | C module added; V-only arm trained (525.15 ± 165.50); R²-over-persistence retracted (Note5) |
 | 2026-09-19 | M trained and closed; `--norm-min-std` fix retracted (Note4) |
 | 2026-09-17 | V accepted at R² 0.916 after three I/O and shape fixes (Note3) |
@@ -156,6 +155,11 @@ Three checks that separated "the code runs" from "the number is real" (Note5 §1
   what any dream-based experiment could achieve on this dataset.
 * **The retracted `0.4724` figure** remains in Note4 (with its original wording) as the
   record of the error; Note5 §5–§6 supersedes it.
+* **The +94.5 gain from `h_t`** is paired on seeds 20000–20099, but only an independent
+  standard error (24.4, z ≈ 3.9) is computable from the stored artifacts; the two arms
+  also differ in parameter count (867 vs 99), so the gain is not decomposed into
+  information vs capacity. See Note6 §4 and §6.1.
+
 * **Hardware note:** all timings are from a *laptop* GPU, not a desktop 3060.
 
 ---
