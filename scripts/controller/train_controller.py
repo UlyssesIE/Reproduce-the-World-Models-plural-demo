@@ -2,7 +2,10 @@
 
     python scripts/controller/train_controller.py \
         --vae runs/vae_pilot2/best.pt --mdn runs/mdn_pilot/best.pt \
-        --workers 8 --popsize 64 --search-episodes 8
+        --workers 8 --popsize 16 --search-episodes 8 --generations 100
+
+    # re-evaluate a saved run without retraining, storing per-rollout returns
+    python scripts/controller/train_controller.py --eval-only --dump-returns ...
 
 Ctrl+C is handled by the parent only; workers ignore SIGINT so the shutdown
 cannot deadlock.  Use --serial for a single-process run (smoke / debugging).
@@ -97,7 +100,9 @@ def _init_worker(cfg):
     os.environ.setdefault("OMP_NUM_THREADS", "1")
     torch.set_num_threads(1)
     dev = torch.device(cfg["device"])
-    agent, env = make_agent(cfg, dev, verbose_stats=True)
+    # agent, env = make_agent(cfg, dev, verbose_stats=True)
+    agent, env = make_agent(cfg, dev)          # workers 静默;父进程 preflight 那次会打印
+
     _W.update(cfg=cfg, agent=agent, env=env)
 
 
@@ -118,11 +123,14 @@ def _fitness_idx(job):
     return i, _fitness_one(theta, _W["cfg"], _W["agent"], _W["env"], label=f"cand{i}")
 
 
-def _eval_one(job):
-    theta, seed = job
+# >>> CHANGE 1/4: _eval_one -> _eval_idx (carries its own index, so results stay
+#     correctly labelled even though imap_unordered returns out of order)
+def _eval_idx(job):
+    i, theta, seed = job
     ag = _W["agent"]
     ag.ctrl.set_flat(theta)
-    return run_episode(_W["env"], ag, seed=seed, max_steps=_W["cfg"]["max_steps"])["return"]
+    r = run_episode(_W["env"], ag, seed=seed, max_steps=_W["cfg"]["max_steps"])
+    return i, r["return"]
 
 
 # ------------------------------------------------------------------ args
@@ -152,9 +160,11 @@ def parse_args():
     p.add_argument("--smoke", action="store_true")
     p.add_argument("--eval-only", action="store_true",
                    help="skip CMA-ES; load best_theta.npz and write eval.json")
+    # >>> CHANGE 2/4: new flag -- store per-rollout returns in eval.json
+    p.add_argument("--dump-returns", action="store_true",
+                   help="also store the per-rollout returns in eval.json "
+                        "(enables a paired comparison across arms)")
     return p.parse_args()
-
-
 
 
 def main() -> int:
@@ -173,7 +183,8 @@ def main() -> int:
         a.workers = 0
         verbose = True
 
-    cfg = dict(vae=a.vae, mdn=a.mdn, latents_dir=a.latents_dir, device=a.device,stats_verbose=False,
+    cfg = dict(vae=a.vae, mdn=a.mdn, latents_dir=a.latents_dir,
+               device=a.device, stats_verbose=False,
                use_hidden=not a.no_hidden, max_steps=a.max_steps,
                crop_bottom=12, size=64, grayscale=False, verbose=verbose,
                search_seeds=list(range(1000, 1000 + a.search_episodes)),
@@ -209,18 +220,22 @@ def main() -> int:
                   f"(last mean_return={-f:8.1f}) {time.time()-t0:.0f}s", flush=True)
         return fits
 
+    # >>> CHANGE 3/4: evaluate() now returns the per-rollout list as well, and
+    #     always takes the indexed path (correct seed labelling, no downside).
     def evaluate(theta):
         if a.workers <= 0:
             rets = [run_episode(env, agent, seed=s, max_steps=cfg["max_steps"])["return"]
                     for s in cfg["eval_seeds"]]
         else:
-            rets = list(pool.imap_unordered(_eval_one,
-                                            [(theta, s) for s in cfg["eval_seeds"]],
-                                            chunksize=1))
-        return float(np.mean(rets)), float(np.std(rets, ddof=1))
+            rets = [None] * len(cfg["eval_seeds"])
+            for i, r in pool.imap_unordered(
+                    _eval_idx,
+                    [(i, theta, s) for i, s in enumerate(cfg["eval_seeds"])],
+                    chunksize=1):
+                rets[i] = r
+        return float(np.mean(rets)), float(np.std(rets, ddof=1)), rets
 
     # ---------------- training loop ---------------- #
-        # ---------------- training loop ---------------- #
     pool, t0 = None, time.time()
     best_theta, best_f = ctrl.get_flat(), np.inf
     theta_path = out / "best_theta.npz"
@@ -275,7 +290,7 @@ def main() -> int:
                     t_ev = time.time()
                     print(f"[gen {g}] evaluating best on {len(cfg['eval_seeds'])} "
                           f"episodes ...", flush=True)
-                    em, esd = evaluate(best_theta)
+                    em, esd, _ = evaluate(best_theta)          # <<< 3 values now
                     rec.update(eval_mean_return=em, eval_std_return=esd,
                                eval_n=len(cfg["eval_seeds"]))
                     print(f"[gen {g:4d}] search {rec['search_mean_return']:8.2f} | "
@@ -290,11 +305,20 @@ def main() -> int:
         # ---- FINAL EVAL: pool is still alive here -- this is the fix ---- #
         print(f"\n[eval] final: {len(cfg['eval_seeds'])} episodes on the best "
               f"individual ...", flush=True)
-        em, esd = evaluate(best_theta)
-        (out / "eval.json").write_text(json.dumps(
-            {"eval_mean_return": em, "eval_std_return": esd,
-             "n_episodes": len(cfg["eval_seeds"]), "params": int(ctrl.n_params),
-             "use_hidden": ctrl.use_hidden}, indent=1))
+
+        # >>> CHANGE 4/4: keep the per-rollout returns and write them out,
+        #     keyed by seed, so two arms can be compared pairwise.
+        em, esd, rets = evaluate(best_theta)
+        payload = {"eval_mean_return": em, "eval_std_return": esd,
+                   "n_episodes": len(cfg["eval_seeds"]),
+                   "params": int(ctrl.n_params),
+                   "use_hidden": ctrl.use_hidden,
+                   "eval_seeds": list(cfg["eval_seeds"])}
+        if a.dump_returns:
+            payload["seed_returns"] = {str(s): float(r)
+                                       for s, r in zip(cfg["eval_seeds"], rets)}
+        (out / "eval.json").write_text(json.dumps(payload, indent=1))
+
         print(f"\nFINAL  {em:.2f} +/- {esd:.2f} over {len(cfg['eval_seeds'])} "
               f"episodes ({'867' if ctrl.use_hidden else '99'} params)", flush=True)
 
@@ -314,7 +338,6 @@ def main() -> int:
         print(f"[main] best search return so far: {-best_f:.1f} "
               f"({theta_path.name} saved)", flush=True)
     return 0
-
 
 
 if __name__ == "__main__":
