@@ -21,7 +21,9 @@ data/explore/*
 data/*.npy
 
 # latent datasets: exclude the arrays, keep the index (mean/std + provenance)
-data/*_latents/*.npy
+# data/*_latents/*.npy
+data/*latents*/*.npy
+!data/pilot_latents/*.npy
 
 # small provenance files that document exactly what was collected
 !data/**/manifest.json
@@ -31,9 +33,9 @@ data/*_latents/*.npy
 # Each checkpoint is ~42 MB (14 MB weights + 28 MB Adam moments). The optimiser
 # state only matters for resuming, which finished runs no longer do.
 runs/**
-!runs/**/
+# !runs/**/
 # keep the training curves: cited as evidence in notes/Note3.md
-!runs/**/log.jsonl
+# !runs/**/log.jsonl
 
 # ---- Generated figures ------------------------------------------------------
 # Regenerate with scripts/vae/recon_grid.py and scripts/mdn/dream_rollout.py.

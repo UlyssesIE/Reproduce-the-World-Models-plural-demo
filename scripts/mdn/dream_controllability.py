@@ -139,7 +139,9 @@ def main() -> int:
         print("[warn] warmup=0: h0 = zeros (metric_validation's t=0 condition)")
     ##########################################################################
     steps = int(a_seq.shape[0])
-    print(f"[cfg ] {a.mdn}   rollout {a.rollout}  steps {steps}  warmup {a.warmup}")
+    # print(f"[cfg ] {a.mdn}   rollout {a.rollout}  steps {steps}  warmup {a.warmup}")
+    print(f"[cfg ] {a.mdn}  rollout {a.rollout} steps {steps} warmup {a.warmup} "
+      f"reps {a.reps} taus {a.taus} E|dz| {eabs:.5f}")
     print(f"[data] E|dz| = {eabs:.5f}   (normalised space, same convention as the metric)")
 
     # ---------------- instrument checks ---------------------------------- #
