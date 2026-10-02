@@ -239,6 +239,18 @@ need an override, Section 2). The full ledger is kept in the session transcript.
 ## 14. Reproducibility certification
 
 This note is the audit artifact for the dose-response claim. It is generated from frozen CSVs by
-`scripts/mdn/gen_note11.py`, is independent of the training code, and reproduces the tau-resolved
+`scripts/mdn/frozen_report.py`, is independent of the training code, and reproduces the tau-resolved
 headline from raw credentials alone.
+
+**Not reproduced: the construction of the `synth3pXX` dose arrays.** The series is shipped frozen
+(`data/pilot_latents_synth3pXX/{latents,actions}.npy`); all seven doses share one byte-identical
+`latents.npy` (md5 `f5433cf8e0de`) and the dose lives entirely in `actions.npy`. The script that
+generated the series is not preserved, and the random draws it used (the action-to-latent map `V`
+and the per-dose row permutation) were never persisted, so the arrays cannot be regenerated
+byte-for-byte and no such regeneration is claimed. The construction is instead documented by
+direct analysis of the frozen arrays, as reported in Section 11: a fixed latent array with the
+dose carried by the action channel as a keep fraction (`0.10 .. 0.90`) at mean reversion
+`rho ~ 0.021`. The task-level claim this note supports is unaffected: the arrays are published,
+and the `D/B` values are recomputable from `tmp_v5_table.csv`, and the tau-resolved headline is
+interpolated on the measured `x`, not on the keep axis (Section 4).
 

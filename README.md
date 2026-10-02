@@ -88,7 +88,7 @@ random-policy baseline; the paper's 906 is **not** claimed as reproduced.
 pip install torch gymnasium[box2d] numpy pillow cma      # pyproject.toml still pending
 
 python scripts/vae/train_vae.py       --data data/raw --out runs/vae_pilot2
-python scripts/vae/encode_latents.py  --vae runs/vae_pilot2/best.pt --out data/pilot_latents
+python scripts/vae/encode_latent.py   --vae runs/vae_pilot2/best.pt --out data/pilot_latents
 python scripts/mdn/train_mdnrnn.py    --latents data/pilot_latents --out runs/mdn_pilot
 ```
 
@@ -110,6 +110,13 @@ Layout: `src/{data,models}` + `src/rollout.py`; `scripts/{data,vae,mdn,controlle
 
 ---
 
+## Reproducibility
+
+What can be re-run from a clean clone, what needs retraining, and what is
+declared non-reconstructable: see [`REPRODUCE.md`](REPRODUCE.md).
+
+---
+
 ## Action-channel study
 
 The paper never measures how much of M's dream depends on the action `a_t`; this
@@ -128,11 +135,28 @@ the crossover's position on a dose–response axis separates the **real** family
 
 **Result** (frozen v5 table; `notes/Note11.md`): the gap is **τ-dependent** — ≈ **13×** at
 τ = 0.1, ≈ **17×** at τ = 0.5, ≈ **19×** at τ = 1.0 — so "at least 15×" holds only for
-τ ≥ 0.5. The crossover moves right as τ grows (drive-frac 0.50→0.75 at τ = 0.1,
+τ ≥ 0.5. The crossover moves right as τ grows (keep fraction 0.50→0.75 at τ = 0.1,
 0.75→0.90 at τ ≥ 0.5). On the seed axis the two families separate at **≈ 9σ**
 (0.1241 ± 0.0113 vs 0.0227 ± 0.0011, 20 rollouts per checkpoint).
 
 ### Reproduce it
+
+> **Note on checkpoints.** Model checkpoints are not shipped (`runs/**` is git-ignored;
+> the full set is ~640 MB, mostly Adam state). Commands that probe a checkpoint need
+> `runs/*/best.pt` to exist first — retrain with the Quickstart commands above. The
+> frozen-credential commands run against `notes/artifacts/` alone.
+
+**Runs from the frozen credentials** (no checkpoints needed):
+
+```bash
+# re-render the write-up (reads notes/artifacts/*.csv only)
+python scripts/mdn/frozen_report.py
+
+# re-run the merged audit (hydrates notes/artifacts/ then runs the four stages)
+python scripts/mdn/n18_audit.py
+```
+
+**Needs checkpoints** (retrain, or drop in `runs/*/best.pt`):
 
 ```bash
 # one rollout, all three temperatures
@@ -143,10 +167,6 @@ python scripts/mdn/dream_controllability.py \
 # the 15-row single-cycle table, and the seed-axis error bars
 python scripts/mdn/frozen_table_v5.py
 python scripts/mdn/seed_spread.py
-
-# regenerate the write-up, and re-run the full audit
-python scripts/mdn/gen_note11.py
-python scripts/mdn/n18_audit.py
 ```
 
 The two structural rows (`real-struct`, `synth3-struct`) come from checkpoints whose own

@@ -156,10 +156,15 @@ w("  s3p10 A_over_B per rollout: %s" % ", ".join("%.3f"%v for v in sorted(fn(x["
 w("  s3p10 D_over_B per rollout: %s" % ", ".join("%.3f"%v for v in sorted(fn(x["D_over_B"]) for x in C[("s3p10",1.0,1)])))
 
 w(""); w("-"*96); w("T) tmp_v5/ raw naming (to locate the medRatio tail)"); w("-"*96)
-fs = sorted(os.listdir("tmp_v5"))
-w("  n=%d" % len(fs))
-w("  first 24: %s" % fs[:24])
-w("  last   6: %s" % fs[-6:])
+if os.path.isdir("tmp_v5"):
+    fs = sorted(os.listdir("tmp_v5"))
+    w("  n=%d" % len(fs))
+    w("  first 24: %s" % fs[:24])
+    w("  last   6: %s" % fs[-6:])
+else:
+    w("  tmp_v5/ absent -- raw per-rollout dumps are not shipped (only the derived")
+    w("  tmp_v5_*.csv surfaces are, under notes/artifacts/). Re-run frozen_table_v5.py")
+    w("  against the checkpoints to regenerate them.")
 
 w(""); w("END")
 with open("tmp_n18_audit.txt","w",encoding="utf-8") as f:
