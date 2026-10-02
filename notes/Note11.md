@@ -176,22 +176,22 @@ directory, which explains the cross-family `actions.npy` md5 collisions.
 
 | file | bytes | md5 (first 12) |
 |---|---|---|
-| `tmp_v5_protocol.csv` | 2566 | `5AC6BA494E7E` |
-| `tmp_v5_cells.csv` | 458594 | `6ABF94F0FBA4` |
-| `tmp_v5_table.csv` | 37743 | `77DDAD7821F0` |
-| `tmp_v5_headline.csv` | 629 | `9B111421BA39` |
-| `tmp_v5_notnote11.csv` | 1174 | `6F5444DF9612` |
-| `tmp_v5_log.txt` | 72276 | `B119B3CA59F6` |
-| `tmp_seed_summary.csv` | 635 | `805EBE1F414A` |
-| `tmp_seed_dbread.csv` | 8140 | `2D6FFFC3EFA7` |
-| `tmp_final_table_v2.csv` | 892 | `8537EEE7285A` |
-| `tmp_final_provenance_v2.csv` | 19941 | `A1FCD28E76E6` |
-| `manifest_ckpt.txt` | 16624 | `CF2B71FC7A54` |
-| `tmp_n18_audit.txt` | 9600 | `1A0566877094` |
-| `tmp_n18_audit_p2.txt` | 5515 | `CDD8314A72C4` |
-| `tmp_n18_audit_p3.txt` | 4338 | `28AFD9AB5AD6` |
-| `tmp_n18_credentials.csv` | 725 | `8C20EA074A1D` |
-| `tmp_n18_deliverable.csv` | 6148 | `EF908588CDFA` |
+| `notes/artifacts/tmp_v5_protocol.csv` | 2566 | `5AC6BA494E7E` |
+| `notes/artifacts/tmp_v5_cells.csv` | 458594 | `6ABF94F0FBA4` |
+| `notes/artifacts/tmp_v5_table.csv` | 37743 | `77DDAD7821F0` |
+| `notes/artifacts/tmp_v5_headline.csv` | 629 | `9B111421BA39` |
+| `notes/artifacts/tmp_v5_notnote11.csv` | 1174 | `6F5444DF9612` |
+| `notes/artifacts/tmp_v5_log.txt` | 72276 | `B119B3CA59F6` |
+| `notes/artifacts/tmp_seed_summary.csv` | 635 | `805EBE1F414A` |
+| `notes/artifacts/tmp_seed_dbread.csv` | 8140 | `2D6FFFC3EFA7` |
+| `notes/artifacts/tmp_final_table_v2.csv` | 892 | `8537EEE7285A` |
+| `notes/artifacts/tmp_final_provenance_v2.csv` | 19941 | `A1FCD28E76E6` |
+| `notes/artifacts/manifest_ckpt.txt` | 16624 | `CF2B71FC7A54` |
+| `notes/artifacts/tmp_n18_audit.txt` | 9600 | `DBF073AD22BF` |
+| `notes/artifacts/tmp_n18_audit_p2.txt` | 5515 | `CDD8314A72C4` |
+| `notes/artifacts/tmp_n18_audit_p3.txt` | 4393 | `9ED24045FF27` |
+| `notes/artifacts/tmp_n18_credentials.csv` | 725 | `5BC8BB4A62FB` |
+| `notes/artifacts/tmp_n18_deliverable.csv` | 6148 | `EF908588CDFA` |
 
 ## 13. Retraction ledger (this session: #47 - #109)
 
