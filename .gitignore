@@ -70,3 +70,6 @@ desktop.ini
 *.bak
 .env
 .env.*
+
+# ---- Scratch / intermediate artifacts (kept locally, never published) --------
+tmp_*
