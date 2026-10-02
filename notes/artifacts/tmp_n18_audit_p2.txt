@@ -1,0 +1,61 @@
+P1) table aggregate vs recomputed from cells (tau=1, t=1)
+  shuf   AB   0.0240/0.0240   ok | DB 0.023117/0.023117 ok | D    0.327/0.327    ok | meanA    0.350 meanB   20.843
+  p25    AB   0.0160/0.0160   ok | DB 0.015406/0.015406 ok | D    0.326/0.326    ok | meanA    0.389 meanB   25.771
+  p50    AB   0.0290/0.0290   ok | DB 0.024856/0.024856 ok | D    0.576/0.576    ok | meanA    0.744 meanB   26.450
+  p75    AB   0.0860/0.0860   ok | DB 0.081848/0.081848 ok | D    1.014/1.014    ok | meanA    1.164 meanB   22.364
+  real   AB   0.0930/0.0930   ok | DB 0.089631/0.089632 ok | D    1.573/1.573    ok | meanA    1.808 meanB   23.612
+  s3p10  AB   0.1940/0.1940   ok | DB 0.142133/0.142133 ok | D    1.624/1.624    ok | meanA    2.201 meanB   11.490
+  s3p15  AB   0.1880/0.1880   ok | DB 0.145003/0.145003 ok | D    1.692/1.692    ok | meanA    2.195 meanB   11.752
+  s3p20  AB   0.2450/0.2450   ok | DB 0.184936/0.184936 ok | D    2.285/2.285    ok | meanA    3.012 meanB   12.430
+  s3p25  AB   0.3200/0.3200   ok | DB 0.270098/0.270098 ok | D    3.135/3.135    ok | meanA    3.718 meanB   11.848
+  s3p50  AB   0.4885/0.4885   ok | DB 0.464836/0.464836 ok | D    4.994/4.994    ok | meanA    5.261 meanB   10.925
+  s3p75  AB   0.6705/0.6705   ok | DB 0.667618/0.667618 ok | D    6.835/6.835    ok | meanA    6.870 meanB   10.829
+  s3p90  AB   1.0815/1.0815   ok | DB 1.059601/1.059601 ok | D    8.479/8.479    ok | meanA    8.668 meanB    8.298
+  PC2    AB   1.2830/1.2830   ok | DB 1.281279/1.281279 ok | D    8.967/8.967    ok | meanA    8.983 meanB    7.215
+
+P2) is table D_mean tau-independent at t=1 ?
+  shuf   tau .1/.5/1.0 =    0.327    0.327    0.327   spread +0.0000
+  p25    tau .1/.5/1.0 =    0.326    0.326    0.326   spread +0.0000
+  p50    tau .1/.5/1.0 =    0.576    0.576    0.576   spread +0.0000
+  p75    tau .1/.5/1.0 =    1.014    1.014    1.014   spread +0.0000
+  real   tau .1/.5/1.0 =    1.573    1.573    1.573   spread +0.0000
+  s3p10  tau .1/.5/1.0 =    1.624    1.624    1.624   spread +0.0000
+  s3p15  tau .1/.5/1.0 =    1.692    1.692    1.692   spread +0.0000
+  s3p20  tau .1/.5/1.0 =    2.285    2.285    2.285   spread +0.0000
+  s3p25  tau .1/.5/1.0 =    3.135    3.135    3.135   spread +0.0000
+  s3p50  tau .1/.5/1.0 =    4.994    4.994    4.994   spread +0.0000
+  s3p75  tau .1/.5/1.0 =    6.835    6.835    6.835   spread +0.0000
+  s3p90  tau .1/.5/1.0 =    8.479    8.479    8.479   spread +0.0000
+  PC2    tau .1/.5/1.0 =    8.967    8.967    8.967   spread +0.0000
+
+P3) Brief 2.5 D(det) vs table D_mean(t=1,tau=1), and closest table cell
+  shuf   brief    0.45 | table(t1)   0.327 ( -27.4%) | closest: tau=0.1 t=  2 val   0.458 d  +0.008
+  p25    brief    0.24 | table(t1)   0.326 ( +35.6%) | closest: tau=0.1 t=  1 val   0.326 d  +0.086
+  p50    brief    0.32 | table(t1)   0.576 ( +79.8%) | closest: tau=0.1 t=  1 val   0.576 d  +0.256
+  p75    brief    0.66 | table(t1)   1.014 ( +53.7%) | closest: tau=0.1 t=  1 val   1.014 d  +0.354
+  real   brief    0.72 | table(t1)   1.573 (+118.5%) | closest: tau=0.1 t=  1 val   1.573 d  +0.853
+  s3p10  brief    2.60 | table(t1)   1.624 ( -37.5%) | closest: tau=0.1 t=  2 val   2.362 d  +0.238
+  s3p15  brief    3.63 | table(t1)   1.692 ( -53.4%) | closest: tau=0.1 t=  4 val   3.443 d  +0.187
+  s3p20  brief    5.64 | table(t1)   2.285 ( -59.5%) | closest: tau=0.1 t=  8 val   5.652 d  +0.013
+  s3p25  brief    7.53 | table(t1)   3.135 ( -58.4%) | closest: tau=0.1 t=  8 val   8.380 d  +0.850
+  s3p50  brief    7.03 | table(t1)   4.994 ( -29.0%) | closest: tau=0.1 t=  2 val   6.855 d  +0.175
+  s3p75  brief    6.42 | table(t1)   6.835 (  +6.5%) | closest: tau=0.1 t=  1 val   6.835 d  +0.415
+  s3p90  brief    6.89 | table(t1)   8.479 ( +23.1%) | closest: tau=0.1 t=  1 val   8.479 d  +1.590
+  PC2    brief   33.06 | table(t1)   8.967 ( -72.9%) | closest: tau=0.1 t= 16 val  31.282 d  +1.778
+
+P4) Brief 2.5 D(det) vs v2-provenance D_det (20 rollouts)
+  shuf   brief    0.45 | prov D_det mean   0.327 min  0.170 max   0.640 | B_noise mean    20.84 | D/B mean 0.023117
+  p25    brief    0.24 | prov D_det mean   0.326 min  0.210 max   0.470 | B_noise mean    25.77 | D/B mean 0.015406
+  p50    brief    0.32 | prov D_det mean   0.576 min  0.350 max   1.090 | B_noise mean    26.45 | D/B mean 0.024856
+  p75    brief    0.66 | prov D_det mean   1.014 min  0.560 max   1.620 | B_noise mean    22.36 | D/B mean 0.081848
+  real   brief    0.72 | prov D_det mean   1.573 min  0.960 max   3.250 | B_noise mean    23.61 | D/B mean 0.089632
+  s3p10  brief    2.60 | prov D_det mean   1.624 min  1.180 max   2.510 | B_noise mean    11.49 | D/B mean 0.142133
+  s3p15  brief    3.63 | prov D_det mean   1.692 min  1.090 max   2.960 | B_noise mean    11.75 | D/B mean 0.145003
+  s3p20  brief    5.64 | prov D_det mean   2.285 min  1.650 max   3.260 | B_noise mean    12.43 | D/B mean 0.184936
+  s3p25  brief    7.53 | prov D_det mean   3.135 min  1.840 max   5.760 | B_noise mean    11.85 | D/B mean 0.270098
+  s3p50  brief    7.03 | prov D_det mean   4.994 min  3.150 max   7.640 | B_noise mean    10.92 | D/B mean 0.464836
+  s3p75  brief    6.42 | prov D_det mean   6.835 min  4.390 max   9.160 | B_noise mean    10.83 | D/B mean 0.667618
+  s3p90  brief    6.89 | prov D_det mean   8.479 min  6.250 max  10.940 | B_noise mean     8.30 | D/B mean 1.059601
+  PC2    brief   33.06 | prov D_det mean   8.967 min  6.420 max  11.290 | B_noise mean     7.21 | D/B mean 1.281279
+
+END

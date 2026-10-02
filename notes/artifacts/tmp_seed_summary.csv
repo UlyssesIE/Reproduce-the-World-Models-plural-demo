@@ -1,0 +1,13 @@
+family,ckpt,rollout_mean_DB,rollout_sd,rollout_se
+real,mdn_pilot,0.089631,0.037443,0.008373
+real,mdn_pilot_s1,0.154371,0.062449,0.013964
+real,mdn_pilot_s2,0.116742,0.048016,0.010737
+real,mdn_pilot_s3,0.117408,0.058304,0.013037
+real,mdn_pilot_s4,0.142393,0.057369,0.012828
+shuf,mdn_pilot_shuf,0.023117,0.011141,0.002491
+shuf,mdn_pilot_shuf_s1,0.020849,0.009987,0.002233
+shuf,mdn_pilot_shuf_s2,0.025704,0.012257,0.002741
+shuf,mdn_pilot_shuf_s3,0.021277,0.010373,0.002319
+noact,mdn_pilot_noact,0.156493,0.064556,0.014435
+noact,mdn_pilot_noact_s1,0.178128,0.083470,0.018665
+noact,mdn_pilot_noact_s2,0.225046,0.105817,0.023661

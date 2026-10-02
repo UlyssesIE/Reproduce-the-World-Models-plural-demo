@@ -1,0 +1,52 @@
+Q1) full (tau,t) search: closest table cell to Brief 2.5 A/B / D(det)
+  shuf   A/B brief  0.024 | closest tau=1.0 t=  1 val  0.0240 d +0.0000 | D brief    0.45 | closest tau=0.1 t=  2 val    0.458 d +0.008
+  p25    A/B brief  0.020 | closest tau=0.5 t=  4 val  0.0200 d +0.0000 | D brief    0.24 | closest tau=0.1 t=  1 val    0.326 d +0.086
+  p50    A/B brief  0.030 | closest tau=1.0 t=  1 val  0.0290 d +0.0010 | D brief    0.32 | closest tau=0.1 t=  1 val    0.576 d +0.256
+  p75    A/B brief  0.090 | closest tau=1.0 t=  4 val  0.0915 d +0.0015 | D brief    0.66 | closest tau=0.1 t=  1 val    1.014 d +0.354
+  real   A/B brief  0.093 | closest tau=1.0 t=  1 val  0.0930 d +0.0000 | D brief    0.72 | closest tau=0.1 t=  1 val    1.573 d +0.853
+  s3p10  A/B brief  0.150 | closest tau=1.0 t=  1 val  0.1940 d +0.0440 | D brief    2.60 | closest tau=0.1 t=  2 val    2.362 d +0.238
+  s3p15  A/B brief  0.170 | closest tau=1.0 t=  1 val  0.1880 d +0.0180 | D brief    3.63 | closest tau=0.1 t=  4 val    3.443 d +0.187
+  s3p20  A/B brief  0.170 | closest tau=1.0 t=  1 val  0.2450 d +0.0750 | D brief    5.64 | closest tau=0.1 t=  8 val    5.652 d +0.013
+  s3p25  A/B brief  0.230 | closest tau=1.0 t=  1 val  0.3200 d +0.0900 | D brief    7.53 | closest tau=0.1 t=  8 val    8.380 d +0.850
+  s3p50  A/B brief  0.450 | closest tau=1.0 t=  1 val  0.4885 d +0.0385 | D brief    7.03 | closest tau=0.1 t=  2 val    6.855 d +0.175
+  s3p75  A/B brief  0.690 | closest tau=1.0 t=  1 val  0.6705 d +0.0195 | D brief    6.42 | closest tau=0.1 t=  1 val    6.835 d +0.415
+  s3p90  A/B brief  1.081 | closest tau=1.0 t=  1 val  1.0815 d +0.0005 | D brief    6.89 | closest tau=0.1 t=  1 val    8.479 d +1.590
+  PC2    A/B brief  1.283 | closest tau=1.0 t=  1 val  1.2830 d +0.0000 | D brief   33.06 | closest tau=0.1 t= 16 val   31.282 d +1.778
+
+Q2) table at t=200, tau=1  (test: is brief D from t=200?)
+  shuf   t200 D=  17.732 AB=0.4665   ||  brief D=  0.45 AB=0.024
+  p25    t200 D=  19.483 AB=0.5445   ||  brief D=  0.24 AB=0.020
+  p50    t200 D=  34.897 AB=0.7355   ||  brief D=  0.32 AB=0.030
+  p75    t200 D=  40.450 AB=0.7820   ||  brief D=  0.66 AB=0.090
+  real   t200 D=  50.572 AB=0.8130   ||  brief D=  0.72 AB=0.093
+  s3p10  t200 D=  26.047 AB=0.2645   ||  brief D=  2.60 AB=0.150
+  s3p15  t200 D=  28.515 AB=0.3440   ||  brief D=  3.63 AB=0.170
+  s3p20  t200 D=  15.810 AB=0.3395   ||  brief D=  5.64 AB=0.170
+  s3p25  t200 D=  27.056 AB=0.4900   ||  brief D=  7.53 AB=0.230
+  s3p50  t200 D=  36.209 AB=0.6910   ||  brief D=  7.03 AB=0.450
+  s3p75  t200 D=  29.608 AB=1.0440   ||  brief D=  6.42 AB=0.690
+  s3p90  t200 D=  55.370 AB=1.4210   ||  brief D=  6.89 AB=1.081
+  PC2    t200 D=  45.729 AB=3.0855   ||  brief D= 33.06 AB=1.283
+
+Q3) bounded repo scan for distinctive Brief tokens
+  scanned 1347 text files
+  33.0600       5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  5.6400        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  7.5300        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  3.6300        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  2.6000        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  6.8900        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  6.4200        5 files   e.g. ['.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt', '.\\tmp_v4_cells.csv']
+  1.0810        4 files   e.g. ['.\\tmp_n18_audit.txt', '.\\tmp_n18_audit_p3.py', '.\\tmp_n18_audit_p3.txt']
+  0.0930       12 files   e.g. ['.\\tmp_n18_audit.txt', '.\\tmp_n18_audit_p2.txt', '.\\tmp_n18_audit_p3.py']
+  0.156493     15 files   e.g. ['.\\tmp_final_table_v2.csv', '.\\tmp_n18_audit.py', '.\\tmp_n18_audit.txt']
+
+Q4) DELIVERABLE table -> tmp_n18_deliverable.csv
+  wrote tmp_n18_deliverable.csv (90 data lines)
+    row,family,tau,t,DB_mean,DB_se,AB_mean,AB_se,D_mean,x
+    shuf,real,0.1,1,0.072386,0.008073,0.0730,0.0081,0.3265,0.019000
+    shuf,real,0.1,200,0.127798,0.038177,0.3305,0.0316,17.7315,0.019000
+    shuf,real,0.5,1,0.032615,0.003541,0.0340,0.0034,0.3265,0.019000
+    shuf,real,0.5,200,0.122411,0.040905,0.3780,0.0300,17.7315,0.019000
+
+END

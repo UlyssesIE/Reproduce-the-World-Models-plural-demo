@@ -1,0 +1,115 @@
+================================================================================================
+N18 AUDIT v2 (COMPLETE)  fixes: #103 'tt' unbound, #106 tuple index, #107 delivery
+================================================================================================
+table rows=405  cells rows=8100  taus=[0.1, 0.5, 1.0]
+
+------------------------------------------------------------------------------------------------
+A) A/B(t=200) monotonicity in tau
+------------------------------------------------------------------------------------------------
+  shuf           real      0.331   0.378   0.467  mono_rise
+  p25            real      0.335   0.441   0.544  mono_rise
+  p50            real      0.598   0.654   0.736  mono_rise
+  p75            real      0.693   0.753   0.782  mono_rise
+  real           real      0.781   0.813   0.813  mono_rise
+  real-struct    real      0.898   0.887   0.906  non_mono
+  s3p10          synth3    0.400   0.308   0.265  mono_fall
+  s3p15          synth3    0.504   0.413   0.344  mono_fall
+  s3p20          synth3    0.518   0.418   0.340  mono_fall
+  s3p25          synth3    0.668   0.548   0.490  mono_fall
+  s3p50          synth3    0.936   0.828   0.691  mono_fall
+  s3p75          synth3    1.343   1.160   1.044  mono_fall
+  s3p90          synth3    2.126   1.667   1.421  mono_fall
+  PC2            synth3    9.190   4.466   3.086  mono_fall
+  synth3-struct  synth3    0.831   0.724   0.652  mono_fall
+  mono_rise=5 mono_fall=9 non_mono=1
+
+------------------------------------------------------------------------------------------------
+B) D/B vs A/B at t=1 (table columns, rollout means)
+------------------------------------------------------------------------------------------------
+  s3p10          tau=1.0 D/B=0.142133 A/B=0.1940 rel=26.74%
+  s3p10          tau=0.5 D/B=0.180941 A/B=0.2460 rel=26.45%
+  s3p10          tau=0.1 D/B=0.272724 A/B=0.3685 rel=25.99%
+  s3p20          tau=1.0 D/B=0.184936 A/B=0.2450 rel=24.52%
+  s3p20          tau=0.5 D/B=0.240808 A/B=0.3145 rel=23.43%
+  s3p20          tau=0.1 D/B=0.386800 A/B=0.5015 rel=22.87%
+  s3p15          tau=1.0 D/B=0.145003 A/B=0.1880 rel=22.87%
+  s3p15          tau=0.5 D/B=0.186767 A/B=0.2405 rel=22.34%
+  s3p15          tau=0.1 D/B=0.289950 A/B=0.3710 rel=21.85%
+  s3p25          tau=1.0 D/B=0.270098 A/B=0.3200 rel=15.59%
+  max rel = 26.74%   criterion <6% : FAIL
+  (row,tau) with rel<6%: 30 / 45
+
+------------------------------------------------------------------------------------------------
+C) x_cross recompute (crossing 1.0, linear in x, t=1)
+------------------------------------------------------------------------------------------------
+  tau=0.1  D/B  x_cross=  17.93   s3p50 x=13.993 val=0.7679  ->  s3p75 x=22.053 val=1.2435   [brief N17=17.93  delta=-0.00]
+  tau=0.1  A/B  x_cross=  17.53   s3p50 x=13.993 val=0.8065  ->  s3p75 x=22.053 val=1.2480
+  tau=0.5  D/B  x_cross=  23.36   s3p75 x=22.053 val=0.8438  ->  s3p90 x=26.837 val=1.4149   [brief N17=23.36  delta=+0.00]
+  tau=0.5  A/B  x_cross=  23.28   s3p75 x=22.053 val=0.8475  ->  s3p90 x=26.837 val=1.4445
+  tau=1.0  D/B  x_cross=  26.11   s3p75 x=22.053 val=0.6676  ->  s3p90 x=26.837 val=1.0596   [brief N17=26.11  delta=-0.00]
+  tau=1.0  A/B  x_cross=  25.89   s3p75 x=22.053 val=0.6705  ->  s3p90 x=26.837 val=1.0815
+
+------------------------------------------------------------------------------------------------
+D) credential md5 (11 items)
+------------------------------------------------------------------------------------------------
+  OK            2566 B  5AC6BA494E7E  tmp_v5_protocol.csv
+  OK          458594 B  6ABF94F0FBA4  tmp_v5_cells.csv
+  OK           37743 B  77DDAD7821F0  tmp_v5_table.csv
+  OK             629 B  9B111421BA39  tmp_v5_headline.csv
+  OK            1174 B  6F5444DF9612  tmp_v5_notnote11.csv
+  OK           72276 B  B119B3CA59F6  tmp_v5_log.txt
+  OK             635 B  805EBE1F414A  tmp_seed_summary.csv
+  OK            8140 B  2D6FFFC3EFA7  tmp_seed_dbread.csv
+  OK             892 B  8537EEE7285A  tmp_final_table_v2.csv
+  OK           19941 B  A1FCD28E76E6  tmp_final_provenance_v2.csv
+  OK           16624 B  CF2B71FC7A54  manifest_ckpt.txt
+
+------------------------------------------------------------------------------------------------
+E) provenance sources + tmp inventory
+------------------------------------------------------------------------------------------------
+  provenance_v2: 300 distinct source files, 0 missing on disk
+  tmp_* top-level = 431 entries ; tmp_*.py = 14
+
+------------------------------------------------------------------------------------------------
+R) reconcile Section 2.5 columns vs tmp_v5_table.csv (tau=1,t=1)
+------------------------------------------------------------------------------------------------
+  row           | DB tbl    DB brief  | AB tbl    AB brief  | D tbl    D brief  | flags
+  shuf          |  0.023117  0.023117 |    0.0240    0.0240 |    0.327    0.450 | DB ok  AB +0.0%  D -27.4% <<<
+  p25           |  0.015406  0.015406 |    0.0160    0.0200 |    0.326    0.240 | DB ok  AB -20.0% <<<  D +35.6% <<<
+  p50           |  0.024856  0.024856 |    0.0290    0.0300 |    0.576    0.320 | DB ok  AB -3.3%  D +79.8% <<<
+  p75           |  0.081848  0.081848 |    0.0860    0.0900 |    1.014    0.660 | DB ok  AB -4.4%  D +53.7% <<<
+  real          |  0.089631  0.089631 |    0.0930    0.0930 |    1.573    0.720 | DB ok  AB +0.0%  D +118.5% <<<
+  real-struct   |  0.156493  0.156493 |    0.1610   -1.0000 |    3.115   -1.000 | DB ok
+  s3p10         |  0.142133  0.142133 |    0.1940    0.1500 |    1.624    2.600 | DB ok  AB +29.3% <<<  D -37.5% <<<
+  s3p15         |  0.145003  0.145003 |    0.1880    0.1700 |    1.692    3.630 | DB ok  AB +10.6% <<<  D -53.4% <<<
+  s3p20         |  0.184936  0.184936 |    0.2450    0.1700 |    2.285    5.640 | DB ok  AB +44.1% <<<  D -59.5% <<<
+  s3p25         |  0.270098  0.270098 |    0.3200    0.2300 |    3.135    7.530 | DB ok  AB +39.1% <<<  D -58.4% <<<
+  s3p50         |  0.464836  0.464836 |    0.4885    0.4500 |    4.994    7.030 | DB ok  AB +8.6% <<<  D -29.0% <<<
+  s3p75         |  0.667618  0.667618 |    0.6705    0.6900 |    6.835    6.420 | DB ok  AB -2.8%  D +6.5% <<<
+  s3p90         |  1.059601  1.059601 |    1.0815    1.0810 |    8.479    6.890 | DB ok  AB +0.0%  D +23.1% <<<
+  PC2           |  1.281279  1.281279 |    1.2830    1.2830 |    8.967   33.060 | DB ok  AB +0.0%  D -72.9% <<<
+  synth3-struct |  0.731066  0.731066 |    0.7330   -1.0000 |    9.633   -1.000 | DB ok
+
+------------------------------------------------------------------------------------------------
+S) 'A/B' column statistic + PAIRED sigma test (tau=1,t=1)
+------------------------------------------------------------------------------------------------
+  s3p10          briefA/B=0.15    mean(A/B)=0.1940 med(A/B)=0.1800 mean(A)/mean(B)=0.1916 | paired(A/B-D/B)=+0.05187+-0.00722  z=+7.2 sigma
+  s3p15          briefA/B=0.17    mean(A/B)=0.1880 med(A/B)=0.1850 mean(A)/mean(B)=0.1867 | paired(A/B-D/B)=+0.04300+-0.00590  z=+7.3 sigma
+  s3p20          briefA/B=0.17    mean(A/B)=0.2450 med(A/B)=0.2450 mean(A)/mean(B)=0.2423 | paired(A/B-D/B)=+0.06006+-0.00599  z=+10.0 sigma
+  s3p25          briefA/B=0.23    mean(A/B)=0.3200 med(A/B)=0.3150 mean(A)/mean(B)=0.3138 | paired(A/B-D/B)=+0.04990+-0.00832  z=+6.0 sigma
+  s3p50          briefA/B=0.45    mean(A/B)=0.4885 med(A/B)=0.4750 mean(A)/mean(B)=0.4816 | paired(A/B-D/B)=+0.02366+-0.00737  z=+3.2 sigma
+  shuf           briefA/B=0.024   mean(A/B)=0.0240 med(A/B)=0.0250 mean(A)/mean(B)=0.0168 | paired(A/B-D/B)=+0.00088+-0.00067  z=+1.3 sigma
+  real           briefA/B=0.093   mean(A/B)=0.0930 med(A/B)=0.1000 mean(A)/mean(B)=0.0766 | paired(A/B-D/B)=+0.00337+-0.00269  z=+1.3 sigma
+  s3p90          briefA/B=1.081   mean(A/B)=1.0815 med(A/B)=1.0350 mean(A)/mean(B)=1.0446 | paired(A/B-D/B)=+0.02190+-0.00518  z=+4.2 sigma
+  PC2            briefA/B=1.283   mean(A/B)=1.2830 med(A/B)=1.3350 mean(A)/mean(B)=1.2451 | paired(A/B-D/B)=+0.00172+-0.00152  z=+1.1 sigma
+  s3p10 A_over_B per rollout: 0.120, 0.130, 0.150, 0.160, 0.160, 0.160, 0.160, 0.170, 0.170, 0.180, 0.180, 0.190, 0.200, 0.200, 0.210, 0.220, 0.240, 0.250, 0.300, 0.330
+  s3p10 D_over_B per rollout: 0.100, 0.107, 0.108, 0.117, 0.118, 0.120, 0.123, 0.128, 0.129, 0.130, 0.136, 0.137, 0.144, 0.148, 0.152, 0.171, 0.174, 0.181, 0.197, 0.223
+
+------------------------------------------------------------------------------------------------
+T) tmp_v5/ raw naming (to locate the medRatio tail)
+------------------------------------------------------------------------------------------------
+  n=313
+  first 24: ['.spec', 'mdn_pilot_noact_r000.txt', 'mdn_pilot_noact_r001.txt', 'mdn_pilot_noact_r002.txt', 'mdn_pilot_noact_r003.txt', 'mdn_pilot_noact_r004.txt', 'mdn_pilot_noact_r005.txt', 'mdn_pilot_noact_r006.txt', 'mdn_pilot_noact_r007.txt', 'mdn_pilot_noact_r008.txt', 'mdn_pilot_noact_r009.txt', 'mdn_pilot_noact_r010.txt', 'mdn_pilot_noact_r011.txt', 'mdn_pilot_noact_r012.txt', 'mdn_pilot_noact_r013.txt', 'mdn_pilot_noact_r014.txt', 'mdn_pilot_noact_r015.txt', 'mdn_pilot_noact_r016.txt', 'mdn_pilot_noact_r017.txt', 'mdn_pilot_noact_r018.txt', 'mdn_pilot_noact_r019.txt', 'mdn_pilot_p25_r000.txt', 'mdn_pilot_p25_r001.txt', 'mdn_pilot_p25_r002.txt']
+  last   6: ['x_mdn_pilot_synth3p15.txt', 'x_mdn_pilot_synth3p20.txt', 'x_mdn_pilot_synth3p25.txt', 'x_mdn_pilot_synth3p50.txt', 'x_mdn_pilot_synth3p75.txt', 'x_mdn_pilot_synth3p90.txt']
+
+END

@@ -1,0 +1,58 @@
+TABLE A   t=1, tau=1.0   (from tmp_v5_table.csv)
+  row            family           x     DB_mean       DB_se     AB_mean       AB_se     D_mean
+  shuf           real         0.019    0.023117    0.002491      0.0240      0.0026      0.327
+  p25            real        -0.045    0.015406    0.001272      0.0160      0.0011      0.326
+  p50            real        -0.131    0.024856    0.001602      0.0290      0.0028      0.576
+  p75            real         0.163    0.081848    0.008541      0.0860      0.0079      1.014
+  real           real         0.910    0.089631    0.008373      0.0930      0.0076      1.573
+  real-struct    real           nan    0.156493    0.014435      0.1610      0.0136      3.115
+  s3p10          synth3       0.685    0.142133    0.007201      0.1940      0.0119      1.624
+  s3p15          synth3       2.161    0.145003    0.010504      0.1880      0.0112      1.692
+  s3p20          synth3       2.435    0.184936    0.009912      0.2450      0.0094      2.285
+  s3p25          synth3       6.813    0.270098    0.018495      0.3200      0.0159      3.135
+  s3p50          synth3      13.993    0.464836    0.028735      0.4885      0.0254      4.994
+  s3p75          synth3      22.053    0.667618    0.044041      0.6705      0.0442      6.835
+  s3p90          synth3      26.837    1.059601    0.067951      1.0815      0.0691      8.479
+  PC2            synth3         nan    1.281279    0.067175      1.2830      0.0667      8.967
+  synth3-struct  synth3         nan    0.731066    0.030239      0.7330      0.0299      9.633
+
+TABLE B   A/B at t=200 by tau  (the family separator)
+  shuf            0.3305  0.3780  0.4665   mono_rise
+  p25             0.3350  0.4405  0.5445   mono_rise
+  p50             0.5980  0.6540  0.7355   mono_rise
+  p75             0.6930  0.7530  0.7820   mono_rise
+  real            0.7815  0.8130  0.8130   mono_rise
+  real-struct     0.8985  0.8870  0.9060   non_mono
+  s3p10           0.3995  0.3080  0.2645   mono_fall
+  s3p15           0.5040  0.4130  0.3440   mono_fall
+  s3p20           0.5180  0.4180  0.3395   mono_fall
+  s3p25           0.6680  0.5480  0.4900   mono_fall
+  s3p50           0.9365  0.8280  0.6910   mono_fall
+  s3p75           1.3435  1.1600  1.0440   mono_fall
+  s3p90           2.1255  1.6670  1.4210   mono_fall
+  PC2             9.1900  4.4660  3.0855   mono_fall
+  synth3-struct   0.8305  0.7240  0.6520   mono_fall
+
+CREDENTIALS  (KEEP set)
+  OK            2566 B  5AC6BA494E7E  tmp_v5_protocol.csv
+  OK          458594 B  6ABF94F0FBA4  tmp_v5_cells.csv
+  OK           37743 B  77DDAD7821F0  tmp_v5_table.csv
+  OK             629 B  9B111421BA39  tmp_v5_headline.csv
+  OK            1174 B  6F5444DF9612  tmp_v5_notnote11.csv
+  OK           72276 B  B119B3CA59F6  tmp_v5_log.txt
+  OK             635 B  805EBE1F414A  tmp_seed_summary.csv
+  OK            8140 B  2D6FFFC3EFA7  tmp_seed_dbread.csv
+  OK             892 B  8537EEE7285A  tmp_final_table_v2.csv
+  OK           19941 B  A1FCD28E76E6  tmp_final_provenance_v2.csv
+  OK           16624 B  CF2B71FC7A54  manifest_ckpt.txt
+  OK            9600 B  C66DDB9472B3  tmp_n18_audit.txt
+  OK            5515 B  CDD8314A72C4  tmp_n18_audit_p2.txt
+  OK            4393 B  9ED24045FF27  tmp_n18_audit_p3.txt
+  OK            6148 B  EF908588CDFA  tmp_n18_deliverable.csv
+  OK            7801 B  C1AE377626EB  tmp_n18_audit.py
+  OK            3126 B  DA8219D5D217  tmp_n18_audit_p2.py
+  OK            3574 B  630C9093FA7D  tmp_n18_audit_p3.py
+  wrote tmp_n18_credentials.csv  (18 items)
+
+tmp_* top-level = 430 ; tmp_*.py = 14
+END
