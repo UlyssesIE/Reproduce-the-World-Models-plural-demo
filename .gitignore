@@ -73,3 +73,6 @@ desktop.ini
 
 # ---- Scratch / intermediate artifacts (kept locally, never published) --------
 tmp_*
+
+# the frozen credential bundle under notes/artifacts must ship (overrides tmp_*)
+!notes/artifacts/**
