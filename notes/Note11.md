@@ -62,9 +62,15 @@ degenerates `A = D = 0`. The override is declared in the script together with th
 `D/B` here reproduces the frozen v2 table exactly (15/15), i.e. this repository's v5 single-cycle
 run is bit-compatible with the earlier v2 table for that one column and for `SE`.
 
-## 4. Table 2 - dose-response on the drive-frac axis (x-free)
+## 4. Table 2 - dose-response on the action-keep axis (x-free)
 
-| row | drive_frac | D/B tau=0.1 | D/B tau=0.5 | D/B tau=1.0 | A/B tau=0.1 | A/B tau=0.5 | A/B tau=1.0 |
+The axis is the fraction of ACTION ROWS LEFT IDENTICAL to the real episode (the `keep` column
+below). The latents are held byte-identical across all seven doses (md5 `f5433cf8e0de`, Section 11),
+so the dose acts only on the action channel; `mean|dz|` is `0.00275` at every dose. The historical
+label `drive_frac` is retained in the credentials but is NOT the generator's `--drive-frac`: it is
+this keep fraction (Section 11).
+
+| row | keep_frac | D/B tau=0.1 | D/B tau=0.5 | D/B tau=1.0 | A/B tau=0.1 | A/B tau=0.5 | A/B tau=1.0 |
 |---|---|---|---|---|---|---|---|
 | s3p10 | 0.10 | 0.2727 | 0.1809 | 0.1421 | 0.3685 | 0.2460 | 0.1940 |
 | s3p15 | 0.15 | 0.2899 | 0.1868 | 0.1450 | 0.3710 | 0.2405 | 0.1880 |
@@ -76,12 +82,16 @@ run is bit-compatible with the earlier v2 table for that one column and for `SE`
 
 `D/B` crosses 1.0 at:
 
-- tau = 0.1: between drive_frac 0.50 and 0.75
-- tau = 0.5: between drive_frac 0.75 and 0.90
-- tau = 1.0: between drive_frac 0.75 and 0.90
+- tau = 0.1: between keep_frac 0.50 and 0.75
+- tau = 0.5: between keep_frac 0.75 and 0.90
+- tau = 1.0: between keep_frac 0.75 and 0.90
 
 The real family never approaches 1.0 at any tau; the synth3 family crosses it, and the crossing
 moves right as tau grows. `D_mean` is tau-invariant to the last printed digit at every `t`.
+
+The coordinates here are the *nominal* keep fraction; Table 3 does not use them. Its crossover is
+interpolated on the measured per-row `x = NLL(lambda=0) - NLL(lambda=1)` from `tmp_v5_table.csv`,
+so the tau-resolved headline is independent of this axis label.
 
 ## 5. Table 3 - tau-resolved headline
 
@@ -169,8 +179,34 @@ was based on the four cells with the smallest difference and is withdrawn (ledge
 ## 11. Settings that were never persisted
 
 `drive_frac`, `rho` and `seed` were used to build the synthetic latents but are written neither into
-`index.json` nor into any checkpoint `args`. The action files are copied byte-for-byte from the source
-directory, which explains the cross-family `actions.npy` md5 collisions.
+`index.json` nor into any checkpoint `args`. For the *unsuffixed* synthetic families (`_synth`,
+`_synth2`, `_synth3`) the action files are byte-for-byte copies of the source directory
+(`actions.npy` md5 `18401300a2dd`), which explains the cross-family md5 collisions.
+
+The `synth3pXX` dose series differs and needs three corrections, all recovered by linear
+decomposition of the frozen arrays (no metadata is trusted):
+
+| dose | md5(latents) | md5(actions) | keep frac | rho |
+|---|---|---|---|---|
+| s3p10 | `f5433cf8e0de` | `a2b53a7c551e` | 0.1011 | 0.021 |
+| s3p15 | `f5433cf8e0de` | `01bc52cd8437` | 0.1497 | 0.021 |
+| s3p20 | `f5433cf8e0de` | `ce345e90b68d` | 0.2003 | 0.021 |
+| s3p25 | `f5433cf8e0de` | `3a603392d0ed` | 0.2471 | 0.021 |
+| s3p50 | `f5433cf8e0de` | `ae63e712ccd1` | 0.5017 | 0.021 |
+| s3p75 | `f5433cf8e0de` | `17b84fb9cb7f` | 0.7501 | 0.021 |
+| s3p90 | `f5433cf8e0de` | `821753ba675f` | 0.9000 | 0.021 |
+
+- all seven doses share ONE byte-identical `latents.npy` (`f5433cf8e0de`); the dose lives entirely
+  in `actions.npy`, and `mean|dz|` is `0.00275` for every dose.
+- the labelled `drive_frac` is the **keep fraction** (the share of action rows left identical to
+  the real episode; the rest are real rows permuted elsewhere). The measured keeps
+  (`0.1011 .. 0.9000`) match the labels (`0.10 .. 0.90`) to 4 decimals.
+- the mean reversion is `rho ~ 0.021`, consistent with `synth3` (`rho = 0.020`) and NOT with
+  `_synth` (`rho = 0.90`); the `--noise-frac` / `drift == drive` caveats of `notes/Note9.md:107`
+  therefore do not apply to this series.
+- the generator that produced the `synth3pXX` series is **not in this repository**;
+  `make_synthetic_latents.py` is excluded because it re-derives the latents as a function of
+  `--drive-frac`, whereas these doses share one fixed latent array.
 
 ## 12. Credentials
 
