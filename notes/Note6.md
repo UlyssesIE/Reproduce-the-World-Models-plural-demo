@@ -48,10 +48,10 @@ python scripts/controller/train_controller.py \
 | wall clock | **49 032 s ≈ 13.6 h** for the training loop (+6.5 min final evaluation) |
 | per generation | **490 s** (of which a periodic evaluation costs **390 s**) |
 
-**The search was saturated well before the budget ran out.** Over the last six
+**The search mean had flattened, but the run had not converged.** Over the last six
 generations `search_mean_return` moved 520.4 → 540.3 → 543.9 → 511.8 → 506.2 → 534.0,
-i.e. **flat within its own ±50 spread**; 100 generations is therefore not a
-binding constraint on this result.
+i.e. **flat within its own ±50 spread** — the *population mean* is level, but generation 99
+still set a new best, so the search had not converged (see `README.md`, CarRacing section).
 
 ---
 
@@ -141,7 +141,7 @@ Continuing Note5 §15.
 | --- | --- | --- | --- |
 | v29 | adding `h_t` to the controller input improves the score beyond `z_t` alone | **measured** (paired, same seeds) | 619.65 vs 525.15, +94.5 |
 | v30 | that +94.5 is entirely attributable to the *information* in `h_t` | **not established** | the arms differ in parameter count as well as input; §4 |
-| v31 (current) | C converges well before 100 generations, and the evaluation path is bit-for-bit deterministic | measured | search flat over the last 6 generations; `eval.json` ≡ gen-99 evaluation |
+| v31 (current) | C **had not converged** by generation 99; the evaluation path is bit-for-bit deterministic | **corrected** | mean search return flat over the last 6 generations yet gen 99 set a new best ⇒ **not converged** (`README.md`, CarRacing section); `eval.json` ≡ gen-99 evaluation; **retraction #5** |
 
 ---
 

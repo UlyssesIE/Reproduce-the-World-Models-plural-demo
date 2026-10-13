@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-03",
+  "config": "configs/seed_papers.yaml",
+  "direction": "both",
+  "mode": "all",
+  "seeds_filter": "",
+  "requests": 62,
+  "status_counter": {
+    "S2:200": 62
+  },
+  "per_seed": {
+    "S1": {
+      "S2:forward": 2143,
+      "S2:backward": 176
+    },
+    "S3": {
+      "S2:forward": 40,
+      "S2:backward": 75
+    },
+    "S4": {
+      "S2:backward": 46
+    },
+    "S5": {
+      "S2:forward": 35,
+      "S2:backward": 40
+    },
+    "S7": {
+      "S2:backward": 68
+    },
+    "S9": {
+      "S2:backward": 44
+    }
+  },
+  "completeness": {
+    "S1": {
+      "S2:forward": {
+        "pages": 22,
+        "items": 2143,
+        "aborted": false,
+        "reason": ""
+      },
+      "S2:backward": {
+        "pages": 2,
+        "items": 176,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "S3": {
+      "S2:forward": {
+        "pages": 1,
+        "items": 40,
+        "aborted": false,
+        "reason": ""
+      },
+      "S2:backward": {
+        "pages": 1,
+        "items": 75,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "S4": {
+      "S2:backward": {
+        "pages": 1,
+        "items": 46,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "S5": {
+      "S2:forward": {
+        "pages": 1,
+        "items": 35,
+        "aborted": false,
+        "reason": ""
+      },
+      "S2:backward": {
+        "pages": 1,
+        "items": 40,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "S7": {
+      "S2:backward": {
+        "pages": 1,
+        "items": 68,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "S9": {
+      "S2:backward": {
+        "pages": 1,
+        "items": 44,
+        "aborted": false,
+        "reason": ""
+      }
+    },
+    "KW": {
+      "queries": 16,
+      "rows": 2985
+    }
+  },
+  "rows_written": 2985,
+  "unresolved": [],
+  "resolved_by_title": [],
+  "errors": []
+}

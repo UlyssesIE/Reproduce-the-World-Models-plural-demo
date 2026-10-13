@@ -1,0 +1,241 @@
+% ============================================================
+% §2.1  references  (draft; fields marked % 待核 must be
+% re-checked against the source before submission)
+% key convention: <firstauthor><year><keyword>
+% ============================================================
+
+% --- MBRL definition -------------------------------------------------
+@book{sutton2018rl,
+  author    = {Sutton, Richard S. and Barto, Andrew G.},
+  title     = {Reinforcement Learning: An Introduction},
+  edition   = {2nd},
+  publisher = {MIT Press},
+  address   = {Cambridge, MA},
+  year      = {2018}
+}
+
+@article{moerland2023mbrl,
+  author  = {Moerland, Thomas M. and Broekens, Joost and Plaat, Aske and Jonker, Catholijn M.},
+  title   = {Model-based Reinforcement Learning: A Survey},
+  journal = {Foundations and Trends in Machine Learning},   % 待核: journal title
+  volume  = {16},                                            % 待核: volume
+  number  = {1},                                             % 待核: issue
+  pages   = {1--118},                                        % 待核: page range
+  year    = {2023},
+  note    = {arXiv:2006.16712}                               % 待核: arXiv id
+}
+
+% --- the object under study -----------------------------------------
+@article{ha2018worldmodels,
+  author  = {Ha, David and Schmidhuber, J{\"u}rgen},
+  title   = {World Models},
+  journal = {arXiv preprint arXiv:1803.10122},
+  year    = {2018},
+  note    = {NeurIPS 2018 variant: ``Recurrent World Models Facilitate Policy Evolution''} % 待核: choose which version to cite
+}
+
+% --- latent-space planning successor --------------------------------
+@inproceedings{hafner2019dreamer,
+  author    = {Hafner, Danijar and Lillicrap, Timothy and Ba, Jimmy and Norouzi, Mohammad},
+  title     = {Dream to Control: Learning Behaviors by Latent Imagination},
+  booktitle = {International Conference on Learning Representations (ICLR)},  % 待核: venue
+  year      = {2020},
+  note      = {arXiv:1912.01603, 2019}                        % 待核: year shown as 2019 or 2020
+}
+
+@article{hafner2023dreamerv3,
+  author  = {Hafner, Danijar and Pasukonis, Jurgis and Ba, Jimmy and Lillicrap, Timothy},
+  title   = {Mastering Diverse Domains through World Models},
+  journal = {arXiv preprint arXiv:2301.04104},
+  year    = {2023}
+}
+
+% --- the reproduction lineage ---------------------------------------
+@misc{tallec2018worldmodels,
+  author       = {Tallec, Corentin and Blier, L{\'e}onard and Kalainathan, Diviyan},
+  title        = {Reproducing ``World Models'': Is training the recurrent network really needed?},
+  year         = {2018},
+  howpublished = {Blog post; code at \url{https://github.com/ctallec/world-models}},
+  note         = {\url{https://ctallec.github.io/world-models/}}
+}
+
+@misc{adgefficiency2019worldmodels,
+  author       = {{ADGEfficiency}},
+  title        = {World Models (The Long Version)},
+  year         = {2019},
+  howpublished = {Blog post (updated 2025); code at \url{https://github.com/ADGEfficiency/world-models}},
+  note         = {\url{https://adgefficiency.com/blog/world-models/}}   % 待核: real name vs handle
+}
+
+% --- reproducibility platform ---------------------------------------
+@article{maes2026swm,
+  author  = {Maes, Lucas and others},                        % 待核: full author list
+  title   = {stable-worldmodel: A Platform for Reproducible World Modeling Research and Evaluation},  % 待核: exact title
+  journal = {arXiv preprint arXiv:2605.21800},
+  year    = {2026}
+}
+
+@article{rigter2025avid,
+  author  = {Rigter, Marc and Gupta, Tarun and Hilmkil, Agrin and Ma, Chao},
+  title   = {AVID: Adapting Video Diffusion Models to World Models},
+  journal = {Reinforcement Learning Journal},        % 待核: volume/pages
+  year    = {2025},
+  note    = {arXiv:2410.12822}
+}
+##################################2026/10/8###################
+% ---------------------------------------------------------------------
+%  Background: model-based RL and the 2018 World Models object of study
+% ---------------------------------------------------------------------
+
+@book{sutton2018reinforcement,
+  title     = {Reinforcement Learning: An Introduction},
+  author    = {Sutton, Richard S. and Barto, Andrew G.},
+  edition   = {2}, publisher = {MIT Press}, address = {Cambridge, MA}, year = {2018},
+  url       = {http://incompleteideas.net/book/the-book-2nd.html}
+}
+
+@article{moerland2023modelbased,
+  title   = {Model-based Reinforcement Learning: A Survey},
+  author  = {Moerland, Thomas M. and Broekens, Joost and Plaat, Aske and Jonker, Catholijn M.},
+  journal = {Foundations and Trends in Machine Learning},
+  volume  = {16}, number = {1}, pages = {1--118}, year = {2023},
+  doi     = {10.1561/2200000086}, note = {arXiv:2006.16712}
+}
+
+@article{ha2018worldmodels,
+  title = {World Models}, author = {Ha, David and Schmidhuber, J{\"u}rgen},
+  journal = {arXiv preprint arXiv:1803.10122}, year = {2018}
+}
+
+@misc{tallec2018worldmodels,
+  title = {world-models: Reimplementation of ``World Models'' in PyTorch},
+  author = {Tallec, Corentin}, year = {2018},
+  howpublished = {Software, \url{https://github.com/ctallec/world-models}},
+  note = {Non-archival}
+}
+
+@misc{adgefficiency2019worldmodels,
+  title = {World Models: A TensorFlow Reimplementation},
+  author = {{ADGEfficiency}}, year = {2019},
+  howpublished = {Blog post, \url{https://adgefficiency.com/}},
+  note = {Revised 2025. Non-archival; reports a CarRacing score of 893.}
+}
+
+% ---------------------------------------------------------------------
+%  Latent-space planning: the Dreamer line
+% ---------------------------------------------------------------------
+
+@inproceedings{hafner2019dreamer,
+  title = {Dream to Control: Learning Behaviors by Latent Imagination},
+  author = {Hafner, Danijar and Lillicrap, Timothy and Ba, Jimmy and Norouzi, Mohammad},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year = {2020}, note = {arXiv:1912.01603}
+}
+
+@article{hafner2025dreamerv3,
+  title = {Mastering diverse control tasks through world models},
+  author = {Hafner, Danijar and Pasukonis, Jurgis and Ba, Jimmy and Lillicrap, Timothy},
+  journal = {Nature}, volume = {640}, pages = {647--653}, year = {2025},
+  doi = {10.1038/s41586-025-08744-2},
+  note = {arXiv:2301.04104 (preprint title: ``Mastering Diverse Domains through World Models'')}
+}
+
+@article{hafner2023dreamerv3preprint,
+  title = {Mastering Diverse Domains through World Models},
+  author = {Hafner, Danijar and Pasukonis, Jurgis and Ba, Jimmy and Lillicrap, Timothy},
+  journal = {arXiv preprint arXiv:2301.04104}, year = {2023}
+}
+
+% ---------------------------------------------------------------------
+%  Early benchmarking and controllability-factor lineage
+% ---------------------------------------------------------------------
+
+@article{nunes2019actionconditioned,
+  title = {Action-conditioned Benchmarking of Robotic Video Prediction Models: a Comparative Study},
+  author = {Nunes, Manuel Serra and Dehban, Atabak and Moreno, Plinio and Santos-Victor, Jos{\'e}},
+  journal = {arXiv preprint arXiv:1910.02564}, year = {2019},
+  note = {No venue stated in the source PDF}
+}
+
+@article{thomas2017independently,
+  title = {Independently Controllable Factors},
+  author = {Thomas, Valentin and Pondard, Jules and Bengio, Emmanuel and Sarfati, Marc and Beaudoin, Philippe and Meurs, Marie-Jean and Pineau, Joelle and Precup, Doina and Bengio, Yoshua},
+  journal = {arXiv preprint arXiv:1708.01289}, year = {2017}
+}
+
+@inproceedings{thomas2018disentangling,
+  title = {Disentangling the Independently Controllable Factors of Variation by Interacting with the World},
+  author = {Thomas, Valentin and Bengio, Emmanuel and Fedus, William and Pondard, Jules and Beaudoin, Philippe and Larochelle, Hugo and Pineau, Joelle and Precup, Doina and Bengio, Yoshua},
+  booktitle = {NIPS 2017 Workshop on Learning Disentangled Representations},
+  year = {2018}, note = {Non-archival. arXiv:1802.09484}
+}
+
+@inproceedings{pan2022isodream,
+  title = {Iso-Dream: Isolating and Leveraging Noncontrollable Visual Dynamics in World Models},
+  author = {Pan, Minting and Zhu, Xiangming and Wang, Yunbo and Yang, Xiaokang},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume = {35}, year = {2022}, note = {arXiv:2205.13817}
+}
+
+% ---------------------------------------------------------------------
+%  Action dependence in modern video / JEPA world models
+% ---------------------------------------------------------------------
+
+@article{li2026dueling,
+  title = {Dueling World Models: Advantage-Style Action Channels for Common-Mode Distractor Rejection},
+  author = {Li, Jiazhuo and Fei, Yiming and Zhou, Zhiruo and Hayashi, Heikichi},
+  journal = {arXiv preprint arXiv:2608.06706}, year = {2026}
+}
+
+@article{yang2026mirabench,
+  title = {MiraBench: Evaluating Action-Conditioned Reliability in Robotic World Models},
+  author = {Yang, Tianzhuo and Shen, Zihan and Mi, Zirui and Zhang, Zhaoyi and Zhou, Jiayi and Ji, Jiaming and Dai, Juntao and Chen, Jiawei and Chen, Boyuan and Yang, Yaodong},
+  journal = {arXiv preprint arXiv:2605.29360}, year = {2026}
+}
+
+@article{chen2026worldecho,
+  title = {Do Robotic World Models Really Follow Actions? Diagnosing and Aligning Action-Conditioned Generation for Policy Learning},
+  author = {Chen, Sixiang and others},
+  journal = {arXiv preprint arXiv:2608.24885}, year = {2026},
+  note = {Full author list not verified this session}
+}
+
+@article{yeom2026actionrelevant,
+  title = {What Makes Video World Model Latents Action-Relevant: Prediction over Reconstruction},
+  author = {Yeom, Jewon and Kim, Hanseul and Park, J. and Jung, S. and Lee, J. and Kim, Taesup},
+  journal = {arXiv preprint arXiv:2606.07687}, year = {2026},
+  note = {CoRL 2026}
+}
+
+@inproceedings{bierling2026vidgenstein,
+  title = {Turning Video Foundation Models into Action-Conditioned World Models by Steering Denoising},
+  author = {Bierling, Lukas and Gavves, Stratis},
+  booktitle = {NeurIPS 2026 Workshop on Post-Training Adaptation of Robot Foundation Models (RoboPAD)},
+  year = {2026},
+  note = {Non-archival; anonymous submission. \url{https://openreview.net/forum?id=c2Mc4pOnub}}
+}
+
+@article{rigter2025avid,
+  title = {AVID: Adapting Video Diffusion Models to World Models},
+  author = {Rigter, Marc and Gupta, Tarun and Hilmkil, Agrin and Ma, Chao},
+  journal = {Reinforcement Learning Journal}, year = {2025}, note = {arXiv:2410.12822}
+}
+
+@article{zhang2025latentaction,
+  title = {What Do Latent Action Models Actually Learn?},
+  author = {Zhang, Chuheng and Pearce, Tim and Zhang, Pushi and Wang, Kaixin and Chen, Xiaoyu and Shen, Wei and Zhao, Li and Bian, Jiang},
+  journal = {arXiv preprint arXiv:2506.15691}, year = {2025}, note = {NeurIPS 2025}
+}
+
+@article{zhang2026deltajepa,
+  title = {Delta-JEPA: Learning Action-Sensitive World Models via Latent Difference Decoding},
+  author = {Zhang, Zhenghao and Wang, Yuanxiang and Guan, Zhenyu and Yang, Yujia and Shi, Bingkang and Zong, Tianyu and Yi, Hongzhu and Chao, Guoqing and Chen, Xingchen and Yang, Tiankun and Bao, Chenxi and Yu, Tao and Zhou, Jingjing and Xu, Jungang},
+  journal = {arXiv preprint arXiv:2606.31232}, year = {2026}
+}
+
+@article{maes2026stableworldmodel,
+  title = {stable-worldmodel: A Platform for Reproducible World Modeling Research and Evaluation},
+  author = {Maes, Lucas and Le Lidec, Quentin and Facury, Luiz and Massaudi, Nassim and Chaurasia, Ayush and Capuano, Francesco and Gao, Richard and Gillin, Taj and Haramati, Dan and Scieur, Damien and LeCun, Yann and Balestriero, Randall},
+  journal = {arXiv preprint arXiv:2605.21800}, year = {2026},
+  note = {Do not confuse with LeWorldModel (arXiv:2603.19312), a distinct paper by the same group}
+}

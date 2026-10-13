@@ -204,6 +204,7 @@ Three checks separated "the code runs" from "the number is real" (Note5 §10):
 
 | date | change |
 | --- | --- |
+| 2026-10-09 | **CarRacing C convergence corrected — not converged (retraction #5).** `notes/Note6.md` §2/§7 said "saturated / converges"; generation 99 still set a new best (12,800 vs 1.84 M rollouts, 1/144), so the run is **not converged** — the README CarRacing section is authoritative. Ledger: `paper/callback_memo.md` |
 | 2026-10-01 | Action-channel study frozen (`notes/Note11.md`), audit added (`scripts/mdn/n18_audit.py`), repository history slimmed |
 | 2026-09-21 | C complete (619.65, +94.50 paired); §3.4 dream; score distribution analysed (Notes 6–7) |
 | 2026-09-20 | C module added; V-only arm (525.15); R²-over-persistence retracted (Note5) |

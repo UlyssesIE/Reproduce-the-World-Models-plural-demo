@@ -1,0 +1,11 @@
+kind,label,n_ckpt,db_mean,db_sd,db_se,ratio,z
+cell,real,5,0.124109,0.025189,0.011265,,
+cell,shuf,4,0.022737,0.002209,0.001105,,
+cell,shufup,6,0.038950,0.007479,0.003053,,
+cell,realdown,6,0.058619,0.013561,0.005536,,
+cell,noact,3,0.186556,0.035045,0.020233,,
+contrast,INFO@norm1.118 = realdown/shuf,,,,,2.5782,6.3560
+contrast,INFO@norm5.242 = real/shufup,,,,,3.1863,7.2964
+contrast,NORM@info- = shufup/shuf,,,,,1.7131,4.9938
+contrast,NORM@info+ = real/realdown,,,,,2.1172,5.2175
+contrast,NOACT/real = noact/real,,,,,1.5032,2.6966

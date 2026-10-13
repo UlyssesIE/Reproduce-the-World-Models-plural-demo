@@ -1,0 +1,17 @@
+evid,quantity,value,source
+EVID-3a,real D/B (seed axis),0.1241,this artifact
+EVID-3a,shuf D/B (seed axis),0.0227,this artifact
+EVID-3a,noact D/B (seed axis),0.1866,this artifact
+EVID-3b,||Wa|| noact,1.732,notes/artifacts/manifest_ckpt.txt:5
+EVID-3b,||Wa|| real,5.242,notes/artifacts/manifest_ckpt.txt:1
+EVID-3c,mean B real (seed-0),23.612,cache tmp_seed/mdn_pilot_r*.txt
+EVID-3c,mean B noact (seed-0),25.220,cache tmp_seed/mdn_pilot_noact_r*.txt
+EVID-3d,mean D real (seed-0),1.573,"tmp_v5_table.csv real (tau=1,t=1)"
+EVID-3d,mean D noact (seed-0),3.115,"tmp_v5_table.csv real-struct (tau=1,t=1)"
+EVID-3e,pinned ||Wa|| shufup,5.2420,tmp_ctrl_train/summary.csv
+EVID-3e,pinned ||Wa|| realdown,1.1180,tmp_ctrl_train/summary.csv
+EVID-3f,INFO@norm1.118,2.58x / 6.36 sigma,this artifact
+EVID-3f,INFO@norm5.242,3.19x / 7.30 sigma,this artifact
+EVID-3f,NORM@info-,1.71x / 4.99 sigma,this artifact
+EVID-3f,NORM@info+,2.12x / 5.22 sigma,this artifact
+EVID-3f,NOACT/real,1.50x / 2.70 sigma,this artifact

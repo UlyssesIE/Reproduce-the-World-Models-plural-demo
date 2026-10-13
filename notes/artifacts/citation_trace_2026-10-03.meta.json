@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-03",
+  "config": "configs/seed_papers.yaml",
+  "direction": "both",
+  "mode": "all",
+  "seeds_filter": "",
+  "requests": 0,
+  "status_counter": {},
+  "per_seed": {},
+  "completeness": {},
+  "rows_written": 0,
+  "unresolved": [],
+  "resolved_by_title": [],
+  "errors": []
+}

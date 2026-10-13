@@ -1,0 +1,176 @@
+# ============================================================
+# seed_papers.yaml — citation-trace seed set (TMLR paper, related work §2)
+# created: 2026-10-03
+# method : Wohlin (2014) snowballing; start set 5-10 papers, chosen for
+#          CLUSTER DIVERSITY (not for forward-citation volume).
+# note   : forward = /citations, backward = /references (Semantic Scholar terms)
+#          keep arXiv ids quoted (unquoted -> float, trailing zeros lost)
+# ============================================================
+
+meta:
+  # dbs: [semantic_scholar, openalex]
+  dbs: [semantic_scholar]
+  seed_count_target: "5-10 (Wohlin 2014)"
+  stop_rule: "saturation: stop when an iteration yields no new included paper"
+  selection_rule: "seeds chosen for cluster diversity across cluster/venue/year/author"
+
+# ------------------------------------------------------------
+# the 7 trace seeds
+# ------------------------------------------------------------
+seeds:
+
+  S1:                                    # cluster (1) reproduction / object of study
+    type: arxiv
+    arxiv_id: "1803.10122"
+    doi: "10.48550/arxiv.1803.10122"
+    title: "World Models"
+    authors: ["Ha, David", "Schmidhuber, Jürgen"]
+    year: 2018
+    cluster: "reproduction lineage (object of study)"
+    role: "core baseline"
+    trace: [citations, references]       # both; 8y of citations accumulated
+    verified: true
+
+  S3:                                    # cluster (2) video-WM action conditioning
+    type: arxiv
+    arxiv_id: "2410.12822"
+    doi: "10.48550/arxiv.2410.12822"
+    title: "AVID: Adapting Video Diffusion Models to World Models"
+    authors: ["Rigter, Marc"]            # full list [CITE-NEEDED]
+    year: 2024
+    cluster: "video-WM action conditioning"
+    role: "metric comparison / adaptation baseline"
+    trace: [citations, references]
+    verified: true
+
+  S4:                                    # cluster (3) action separation / silent failure
+    type: arxiv
+    arxiv_id: "2608.06706"
+    doi: "10.48550/arxiv.2608.06706"
+    title: "Dueling World Models: Advantage-Style Action Channels for Common-Mode Distractor Rejection"
+    authors: ["Li, Jiazhuo"]             # full list [CITE-NEEDED]
+    year: 2026
+    cluster: "action separation / silent failure"
+    role: "same-phenomenon, opposite sign (collapse)"
+    trace: [references]                  # fwd ~0 (Aug 2026) -> backward only
+    verified: true
+
+  S9:                                    # cluster (3b) diagnostic benchmark
+    type: arxiv
+    arxiv_id: "2608.24885"
+    doi: "10.48550/arxiv.2608.24885"
+    title: "Do Robotic World Models Really Follow Actions? Diagnosing and Aligning Action-Conditioned Generation for Policy Learning"
+    authors: ["Chen, Sixiang"]           # full list [CITE-NEEDED]
+    year: 2026
+    cluster: "action-following diagnostic benchmark"
+    role: "closest in intent (diagnosis framing); WorldEcho / WorldSync"
+    trace: [references]
+    verified: true
+
+  S5:                                    # cluster (4) latent-action identifiability theory
+    type: arxiv
+    arxiv_id: "2506.15691"
+    doi: "10.48550/arxiv.2506.15691"
+    title: "What Do Latent Action Models Actually Learn?"
+    authors: ["Zhang, Chuheng", "Pearce, Tim", "Zhang, Pushi"]
+    year: 2025
+    cluster: "latent-action identifiability theory"
+    role: "theory neighbor (criteria for controllable vs exogenous variation)"
+    trace: [citations, references]       # fwd weak (~1.3y) but non-zero
+    verified: true
+
+  S6:                                    # cluster (5) action share
+    type: openreview
+    openreview_id: "c2Mc4pOnub"
+    title: "Turning Video Foundation Models into Action-Conditioned World Models by Steering Denoising"
+    authors: ["Bierling, Lukas", "Gavves, Stratis"]
+    year: 2026
+    cluster: "action share"
+    role: "metric family: action share (Sa=1.170)"
+    trace: [references]                  # fwd = 0 (Oct 2026, non-archival)
+    verified: true
+    overlap: "backward refs overlap S3 (AVID); lower marginal yield"
+    note: "NeurIPS 2026 RoboPAD workshop, NON-ARCHIVAL. Cite as workshop; re-check status before submission."
+
+  S7:                                    # cluster (6) evaluation platform
+    type: arxiv
+    arxiv_id: "2605.21800"
+    doi: "10.48550/arxiv.2605.21800"
+    title: "stable-worldmodel: A Platform for Reproducible World Modeling Research and Evaluation"
+    authors: ["Maes, Lucas"]
+    year: 2026
+    cluster: "evaluation platform"
+    role: "platform line (Mila / galilai-group)"
+    trace: [references]
+    verified: true
+    optional: true
+
+# ------------------------------------------------------------
+# special case (NOT counted among the 7)
+# ------------------------------------------------------------
+special:
+  S2:
+    type: github
+    repo: "https://github.com/ctallec/world-models"
+    title: "world-models (PyTorch reimplementation)"
+    year: 2019
+    cluster: "reproduction lineage"
+    role: "performance-level claim; no controllability metric"
+    trace: []                            # no DB record
+    method: "grep S1 forward citations for 'tallec'"
+    verified: true
+
+# ------------------------------------------------------------
+# unverified / manual
+# ------------------------------------------------------------
+unverified:
+  S8:
+    type: manual
+    title: "WorldModelGym"
+    role: "evaluation platform (Reka)"
+    trace: []
+    verified: false
+    note: "must verify authors/year/venue before citing"
+
+# ------------------------------------------------------------
+# CLUSTER GAP (7): no seed available -> discover by keyword search
+# this is the methodology lineage of §6 (artifact controls)
+# ------------------------------------------------------------
+cluster_gaps:
+  C7_metric_artifact_methodology:
+    label: "artifact controls / sanity checks / randomization tests"
+    seed: null
+    discovery: keyword_search        # second prong, not snowballing
+    keywords:
+      - "sanity check"
+      - "randomization test"
+      - "untrained baseline"
+      - "random network ablation"
+      - "dose-response control"
+      - "nuisance variable ablation"
+
+# ------------------------------------------------------------
+# keyword matrix for the keyword-search prong (title+abstract, case-insensitive)
+# ------------------------------------------------------------
+keywords:
+  reproduction_lineage:
+    - "world models reproduction"
+    - "world models reimplementation"
+    - "mixture density network rnn"
+    - "carracing world model"
+    - "recurrent reservoir"
+  metric_family:
+    - "action share world model"
+    - "action dependence world model"
+    - "controllability metric world model"
+    - "action separation latent dynamics"
+    - "latent action probing"
+  artifact_ablation:
+    - "untrained network control"
+    - "random network baseline ablation"
+    - "silent failure world model"
+    - "dose response action sensitivity"
+  methodology:
+    - "sanity check neural network"
+    - "randomization test controllability"
+
