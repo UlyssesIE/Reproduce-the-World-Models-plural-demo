@@ -21,8 +21,10 @@ and its exit code are given.
 | Key deps | `torch`, `gymnasium[box2d]`, `numpy`, `pillow`, `cma` |
 | Hardware used | AMD Ryzen 9 5900HX laptop + RTX 3060 Laptop (6 GB) |
 
-There is **no `pyproject.toml` / `requirements.txt`**; the dependency list above is the
-current install (`pyproject.toml` is a roadmap item in `README.md`).
+Dependencies are declared in **`pyproject.toml`** (mirrored in `requirements.txt`); install
+with `pip install -e .`, after installing the CUDA torch wheels:
+`pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121`.
+
 
 ---
 

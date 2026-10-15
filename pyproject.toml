@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "world-models-reproduction"
+version = "0.1.0"
+description = "Clean-room reproduction of Ha & Schmidhuber's World Models (2018), with an action-sensitivity probe."
+readme = "README.md"
+requires-python = ">=3.10,<3.12"          # vizdoom 1.2.x has no 3.12 wheels
+license = { file = "LICENSE" }
+
+# NOTE: torch/torchvision are listed here, but must be installed from the CUDA
+# wheel index first — PEP 621 cannot express a per-package index URL:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+dependencies = [
+    "torch>=2.2,<2.6",
+    "torchvision>=0.17,<0.21",
+    "numpy>=1.26,<3.0",
+    "scipy>=1.11",
+    "gymnasium[box2d]>=1.0",
+    "vizdoom>=1.2.3",
+    "opencv-python-headless>=4.9",
+    "Pillow>=10.0",
+    "cma>=3.3",
+    "matplotlib>=3.8",
+    "pandas>=2.1",
+    "tqdm>=4.66",
+    "tensorboard>=2.15",
+    "PyYAML>=6.0",
+    "imageio>=2.34",
+    "imageio-ffmpeg>=0.4.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+# `src/` is the import root (imports are `from src.models... import ...`),
+# so the package to install is `src` itself, not its submodules.
+[tool.setuptools.packages.find]
+include = ["src*"]

@@ -80,30 +80,66 @@ random-policy baseline; the paper's 906 is **not** claimed as reproduced.
 
 ---
 
-## Quickstart
+## Reproducing
 
-### 1. Train the pipeline
+Install (CUDA 12.1 wheels for the RTX 3060; `gymnasium[box2d]` needs system-level `swig`):
 
 ```bash
-pip install torch gymnasium[box2d] numpy pillow cma      # pyproject.toml still pending
-
-python scripts/vae/train_vae.py       --data data/raw --out runs/vae_pilot2
-python scripts/vae/encode_latent.py   --vae runs/vae_pilot2/best.pt --out data/pilot_latents
-python scripts/mdn/train_mdnrnn.py    --latents data/pilot_latents --out runs/mdn_pilot
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+pip install -r requirements.txt          # or: pip install "gymnasium[box2d]" numpy pillow cma
 ```
 
-### 2. Evolve the controller
+Run the pipeline in order (shapes as used here; the paper used 10,000 rollouts):
 
 ```bash
-# CMA-ES in the real environment. Launch in its own console; never Ctrl+C a spawn
-# pool — close the window instead.
+# 1. collect random-policy rollouts from CarRacing-v3
+python scripts/data/collect_data.py --out data/raw --num-rollouts 100
+
+# 2. V — train the ConvVAE, then freeze it and encode latent sequences
+python scripts/data/build_frame_cache.py --data data/raw --out data/pilot_frames.npy
+python scripts/vae/train_vae.py     --data data/raw --frame-cache data/pilot_frames.npy --out runs/vae_pilot2
+python scripts/vae/encode_latent.py --vae runs/vae_pilot2/best.pt \
+    --cache data/pilot_frames.npy --data data/raw --out data/pilot_latents
+
+# 3. M — train the MDN-RNN on the latent sequences
+python scripts/mdn/train_mdnrnn.py --latents data/pilot_latents --out runs/mdn_pilot
+
+# 4. C — evolve the controller with CMA-ES in the real environment
+#    (launch in its own console; never Ctrl+C a spawn pool — close the window)
 python scripts/controller/train_controller.py \
     --vae runs/vae_pilot2/best.pt --mdn runs/mdn_pilot/best.pt \
     --workers 8 --popsize 16 --search-episodes 8 --generations 100
 #   --no-hidden   the paper's 99-parameter V-only ablation
 #   --eval-only   re-evaluate a saved best_theta.npz (add --dump-returns for
 #                 per-rollout scores, which enable paired comparisons)
+
+# 5. probe the checkpoint (~1,250 steps), or re-render the frozen tables
+python scripts/mdn/dream_controllability.py --mdn runs/mdn_pilot/best.pt \
+    --latents data/pilot_latents --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
+python scripts/mdn/frozen_report.py      # rebuilds notes/Note11.md from notes/artifacts/ alone
+python scripts/mdn/n18_audit.py          # merged audit; notes/artifacts/ alone
 ```
+
+**Smoke test** — the same pipeline on a few rollouts, end-to-end in minutes:
+
+```bash
+python scripts/tools/check_env.py --skip-env
+python scripts/data/collect_data.py      --out data/smoke --num-rollouts 8 --max-episode-steps 200
+python scripts/data/build_frame_cache.py --data data/smoke --out data/smoke_frames.npy
+python scripts/vae/train_vae.py     --data data/smoke --frame-cache data/smoke_frames.npy --out runs/smoke_vae --epochs 1
+python scripts/vae/encode_latent.py --vae runs/smoke_vae/best.pt --cache data/smoke_frames.npy --data data/smoke --out data/smoke_latents
+python scripts/mdn/train_mdnrnn.py  --latents data/smoke_latents --out runs/smoke_mdn --epochs 1
+python scripts/controller/train_controller.py --vae runs/smoke_vae/best.pt --mdn runs/smoke_mdn/best.pt \
+    --latents-dir data/smoke_latents --smoke --serial --max-steps 200
+```
+
+**Notes.** Checkpoints are not shipped (`runs/**` is git-ignored), so step 4 and the probe
+need a retrain first; `frozen_report.py` and `n18_audit.py` read `notes/artifacts/` alone.
+The off-pipeline families (`shuf`, `noact`, the norm-pinned `realdown`/`shufup`) and the
+2×2 that separates information from norm come from
+`train_mdnrnn.py --latents data/pilot_latents_shuf`, `train_mdnrnn_norm.py`, and
+`n24_gate1_2x2.py`; what is and is not reconstructable is stated in
+[`REPRODUCE.md`](REPRODUCE.md). A `pyproject.toml` is still pending.
 
 Layout: `src/{data,models}` + `src/rollout.py`; `scripts/{data,vae,mdn,controller,tools}`;
 `notes/Note1…11.md`; `runs/` and `data/`.
@@ -194,9 +230,7 @@ Three checks separated "the code runs" from "the number is real" (Note5 §10):
 - [x] C, both arms — 525.15 ± 165.50 (V-only) → 619.65 (V+`h_t`), paired +94.50 (t = 4.50)
 - [x] Paper §3.4 — C in the dream
 - [x] **Action-channel dose–response** — 15-row table, τ ∈ {0.1, 0.5, 1.0} (Note11)
-- [ ] More generations / more search episodes per candidate (8 → 16–24)
-- [ ] Scale data beyond 100 rollouts — the only lever on the action channel
-- [ ] `pyproject.toml`; probe provenance (`argv`, hashes, normalisation source per JSON)
+- [x] `pyproject.toml`; probe provenance (`argv`, hashes, normalisation source per JSON)
 
 ---
 
