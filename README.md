@@ -82,56 +82,88 @@ random-policy baseline; the paper's 906 is **not** claimed as reproduced.
 
 ## Reproducing
 
-Install (CUDA 12.1 wheels for the RTX 3060; `gymnasium[box2d]` needs system-level `swig`):
+**0. Setup.** Use `python3` if `python` is not on your PATH. This is a source checkout (not
+an installed package), so put its root on the import path first:
+
+```bash
+export PYTHONPATH=/app          # the repository root (Docker/WSL: often /app; locally: "$(pwd)")
+```
+
+Python **3.10 or 3.11** (vizdoom has no 3.12 wheels); developed and verified on 3.11.
+
+**Container.** PyTorch's DataLoader needs a shared-memory segment far larger than Docker's
+64 MB default; with the default you get `Bus error` / killed workers. Start the container
+with at least 1 GB, preferably 2 GB:
+
+```bash
+docker run --gpus all --shm-size=2g -it --rm -v "$PWD":/app -w /app <your-image> bash
+```
+
+Install (`gymnasium[box2d]` needs system-level `swig`):
 
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 pip install -r requirements.txt          # or: pip install "gymnasium[box2d]" numpy pillow cma
 ```
 
+**GPU is optional.** Every script falls back to CPU automatically (~20× slower), so the
+whole pipeline — including the smoke test — runs without a GPU. On WSL2 install a
+WSL-capable NVIDIA driver so `nvidia-smi` works; in Docker add `--gpus all` (the host needs
+`nvidia-container-toolkit`).
+
 Run the pipeline in order (shapes as used here; the paper used 10,000 rollouts):
 
 ```bash
 # 1. collect random-policy rollouts from CarRacing-v3
-python scripts/data/collect_data.py --out data/raw --num-rollouts 100
+python3 scripts/data/collect_data.py --out data/raw --num-rollouts 100
 
 # 2. V — train the ConvVAE, then freeze it and encode latent sequences
-python scripts/data/build_frame_cache.py --data data/raw --out data/pilot_frames.npy
-python scripts/vae/train_vae.py     --data data/raw --frame-cache data/pilot_frames.npy --out runs/vae_pilot2
-python scripts/vae/encode_latent.py --vae runs/vae_pilot2/best.pt \
-    --cache data/pilot_frames.npy --data data/raw --out data/pilot_latents
+python3 scripts/data/build_frame_cache.py --data data/raw --out data/pilot_frames.npy
+python3 scripts/vae/train_vae.py --data data/raw --frame-cache data/pilot_frames.npy --out runs/vae_pilot2
+python3 scripts/vae/encode_latent.py --vae runs/vae_pilot2/best.pt --cache data/pilot_frames.npy --data data/raw --out data/pilot_latents
 
 # 3. M — train the MDN-RNN on the latent sequences
-python scripts/mdn/train_mdnrnn.py --latents data/pilot_latents --out runs/mdn_pilot
+python3 scripts/mdn/train_mdnrnn.py --latents data/pilot_latents --out runs/mdn_pilot
 
 # 4. C — evolve the controller with CMA-ES in the real environment
 #    (launch in its own console; never Ctrl+C a spawn pool — close the window)
-python scripts/controller/train_controller.py \
-    --vae runs/vae_pilot2/best.pt --mdn runs/mdn_pilot/best.pt \
-    --workers 8 --popsize 16 --search-episodes 8 --generations 100
+python3 scripts/controller/train_controller.py --vae runs/vae_pilot2/best.pt --mdn runs/mdn_pilot/best.pt --workers 8 --popsize 16 --search-episodes 8 --generations 100
 #   --no-hidden   the paper's 99-parameter V-only ablation
-#   --eval-only   re-evaluate a saved best_theta.npz (add --dump-returns for
-#                 per-rollout scores, which enable paired comparisons)
+#   --eval-only   re-evaluate a saved best_theta.npz (add --dump-returns for per-rollout scores)
 
 # 5. probe the checkpoint (~1,250 steps), or re-render the frozen tables
-python scripts/mdn/dream_controllability.py --mdn runs/mdn_pilot/best.pt \
-    --latents data/pilot_latents --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
-python scripts/mdn/frozen_report.py      # rebuilds notes/Note11.md from notes/artifacts/ alone
-python scripts/mdn/n18_audit.py          # merged audit; notes/artifacts/ alone
+python3 scripts/mdn/dream_controllability.py --mdn runs/mdn_pilot/best.pt --latents data/pilot_latents --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
+python3 scripts/mdn/frozen_report.py      # rebuilds notes/Note11.md from notes/artifacts/ alone
+python3 scripts/mdn/n18_audit.py          # merged audit; notes/artifacts/ alone
 ```
 
-**Smoke test** — the same pipeline on a few rollouts, end-to-end in minutes:
+**Smoke test** — the same pipeline, end-to-end in minutes. Paste **one line at a time** (the
+path after `--cache` / `--frame-cache` must stay on its line). On the 2 GB container above it
+needs no special flags, but `--workers 0` keeps it trivially safe on a smaller `/dev/shm`:
 
 ```bash
-python scripts/tools/check_env.py --skip-env
-python scripts/data/collect_data.py      --out data/smoke --num-rollouts 8 --max-episode-steps 200
-python scripts/data/build_frame_cache.py --data data/smoke --out data/smoke_frames.npy
-python scripts/vae/train_vae.py     --data data/smoke --frame-cache data/smoke_frames.npy --out runs/smoke_vae --epochs 1
-python scripts/vae/encode_latent.py --vae runs/smoke_vae/best.pt --cache data/smoke_frames.npy --data data/smoke --out data/smoke_latents
-python scripts/mdn/train_mdnrnn.py  --latents data/smoke_latents --out runs/smoke_mdn --epochs 1
-python scripts/controller/train_controller.py --vae runs/smoke_vae/best.pt --mdn runs/smoke_mdn/best.pt \
-    --latents-dir data/smoke_latents --smoke --serial --max-steps 200
+python3 scripts/tools/check_env.py --skip-env
+# On a CPU-only host this prints "[FAIL] cuda.is_available() False" and exits 1. That is
+# expected — no GPU is required — and does not block the CPU pipeline below.
+
+python3 scripts/data/collect_data.py      --out data/smoke --num-rollouts 20 --max-episode-steps 200
+python3 scripts/data/build_frame_cache.py --data data/smoke --out data/smoke_frames.npy
+python3 scripts/vae/train_vae.py     --data data/smoke --frame-cache data/smoke_frames.npy --out runs/smoke_vae --epochs 1 --workers 0
+python3 scripts/vae/encode_latent.py --vae runs/smoke_vae/best.pt --cache data/smoke_frames.npy --data data/smoke --out data/smoke_latents --workers 0
+python3 scripts/mdn/train_mdnrnn.py  --latents data/smoke_latents --out runs/smoke_mdn --epochs 1 --workers 0
+python3 scripts/controller/train_controller.py --vae runs/smoke_vae/best.pt --mdn runs/smoke_mdn/best.pt --latents-dir data/smoke_latents --smoke --serial --max-steps 200
 ```
+
+**Known pitfalls** (all first hit from a clean container; none is a flaw in the method):
+
+| symptom | cause / fix |
+| --- | --- |
+| `ModuleNotFoundError: No module named 'src'` | the repo root is not on the path — `export PYTHONPATH=/app` |
+| `python: command not found` | only `python3` is installed — use `python3` |
+| `check_env.py`: `cuda.is_available() False` | CPU-only host; expected, and the CPU pipeline runs fine |
+| `--cache` / `--frame-cache`: `expected one argument` | the path was lost to a line break — keep the command on one line |
+| `Bus error` / `DataLoader worker killed` | container `/dev/shm` too small — start Docker with `--shm-size=2g`, or add `--workers 0` |
+| `val split is empty (n_rollouts=…)` | the split is by rollout at `train_frac=0.95`, so **fewer than 11 rollouts leaves no validation data** — the smoke test collects 20 |
 
 **Notes.** Checkpoints are not shipped (`runs/**` is git-ignored), so step 4 and the probe
 need a retrain first; `frozen_report.py` and `n18_audit.py` read `notes/artifacts/` alone.
@@ -139,7 +171,7 @@ The off-pipeline families (`shuf`, `noact`, the norm-pinned `realdown`/`shufup`)
 2×2 that separates information from norm come from
 `train_mdnrnn.py --latents data/pilot_latents_shuf`, `train_mdnrnn_norm.py`, and
 `n24_gate1_2x2.py`; what is and is not reconstructable is stated in
-[`REPRODUCE.md`](REPRODUCE.md). A `pyproject.toml` is still pending.
+[`REPRODUCE.md`](REPRODUCE.md).
 
 Layout: `src/{data,models}` + `src/rollout.py`; `scripts/{data,vae,mdn,controller,tools}`;
 `notes/Note1…11.md`; `runs/` and `data/`.
