@@ -82,36 +82,42 @@ random-policy baseline; the paper's 906 is **not** claimed as reproduced.
 
 ## Reproducing
 
-**0. Setup.** Use `python3` if `python` is not on your PATH. This is a source checkout (not
-an installed package), so put its root on the import path first:
+| stage | run at full scale | re-verified in a clean container |
+| --- | --- | --- |
+| container + dependencies | — | ✅ |
+| collect 100 rollouts (`data/raw`) | ✅ | ✅ |
+| frame cache (`data/raw`) | ✅ | ✅ |
+| V — full VAE training (30 epochs, default) | ✅ | ✅ |
+| V — `encode_latent` | ✅ | ✅ (smoke scale) |
+| M — MDN-RNN training | ✅ | ✅ (smoke scale) |
+| C — CMA-ES controller | ✅ | ✅ (smoke scale) |
+| Tier 1 (table recomputation) | ✅ | ✅ |
+
+The reported numbers come from the full-scale runs; the clean-container column shows which
+stages were re-exercised there, and at what scale.
+
+### Setup
+
+Verified on Ubuntu 22.04 with nothing preinstalled. Python **3.10 or 3.11** (vizdoom has no
+3.12 wheels).
 
 ```bash
-export PYTHONPATH=/app          # the repository root (Docker/WSL: often /app; locally: "$(pwd)")
-```
+# 2 GB of shared memory is required: Docker's 64 MB default kills DataLoader workers
+docker run --gpus all --shm-size=2g -it --rm ubuntu:22.04 bash
 
-Python **3.10 or 3.11** (vizdoom has no 3.12 wheels); developed and verified on 3.11.
+apt-get update && apt-get install -y python3 python3-pip python3-venv git
+git clone https://github.com/UlyssesIE/Reproduce-the-World-Models-plural-demo.git /app
+cd /app && export PYTHONPATH=/app      # makes `from src…` importable; there is no build step
 
-**Container.** PyTorch's DataLoader needs a shared-memory segment far larger than Docker's
-64 MB default; with the default you get `Bus error` / killed workers. Start the container
-with at least 1 GB, preferably 2 GB:
-
-```bash
-docker run --gpus all --shm-size=2g -it --rm -v "$PWD":/app -w /app <your-image> bash
-```
-
-Install (`gymnasium[box2d]` needs system-level `swig`):
-
-```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-pip install -r requirements.txt          # or: pip install "gymnasium[box2d]" numpy pillow cma
+pip install -r requirements.txt
 ```
 
-**GPU is optional.** Every script falls back to CPU automatically (~20× slower), so the
-whole pipeline — including the smoke test — runs without a GPU. On WSL2 install a
-WSL-capable NVIDIA driver so `nvidia-smi` works; in Docker add `--gpus all` (the host needs
-`nvidia-container-toolkit`).
+No GPU? Drop `--gpus all`; every script falls back to CPU automatically (~20× slower). On
+WSL2 install a WSL-capable NVIDIA driver so `nvidia-smi` works; in Docker the host needs
+`nvidia-container-toolkit`.
 
-Run the pipeline in order (shapes as used here; the paper used 10,000 rollouts):
+### Full pipeline — one line per run (the paper used 10,000 rollouts)
 
 ```bash
 # 1. collect random-policy rollouts from CarRacing-v3
@@ -133,13 +139,16 @@ python3 scripts/controller/train_controller.py --vae runs/vae_pilot2/best.pt --m
 
 # 5. probe the checkpoint (~1,250 steps), or re-render the frozen tables
 python3 scripts/mdn/dream_controllability.py --mdn runs/mdn_pilot/best.pt --latents data/pilot_latents --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
+python3 scripts/mdn/frozen_table_v5.py     # 15-row dose-response table (needs checkpoints)
+python3 scripts/mdn/seed_spread.py         # seed-axis error bars (needs checkpoints)
 python3 scripts/mdn/frozen_report.py      # rebuilds notes/Note11.md from notes/artifacts/ alone
 python3 scripts/mdn/n18_audit.py          # merged audit; notes/artifacts/ alone
 ```
 
-**Smoke test** — the same pipeline, end-to-end in minutes. Paste **one line at a time** (the
-path after `--cache` / `--frame-cache` must stay on its line). On the 2 GB container above it
-needs no special flags, but `--workers 0` keeps it trivially safe on a smaller `/dev/shm`:
+### Smoke test — minutes, one line at a time
+
+The path after `--cache` / `--frame-cache` must stay on its line. On the 2 GB container
+above no special flags are needed, but `--workers 0` keeps it safe on a smaller `/dev/shm`:
 
 ```bash
 python3 scripts/tools/check_env.py --skip-env
@@ -154,7 +163,7 @@ python3 scripts/mdn/train_mdnrnn.py  --latents data/smoke_latents --out runs/smo
 python3 scripts/controller/train_controller.py --vae runs/smoke_vae/best.pt --mdn runs/smoke_mdn/best.pt --latents-dir data/smoke_latents --smoke --serial --max-steps 200
 ```
 
-**Known pitfalls** (all first hit from a clean container; none is a flaw in the method):
+### Known pitfalls (all first hit from a clean container)
 
 | symptom | cause / fix |
 | --- | --- |
@@ -165,8 +174,9 @@ python3 scripts/controller/train_controller.py --vae runs/smoke_vae/best.pt --md
 | `Bus error` / `DataLoader worker killed` | container `/dev/shm` too small — start Docker with `--shm-size=2g`, or add `--workers 0` |
 | `val split is empty (n_rollouts=…)` | the split is by rollout at `train_frac=0.95`, so **fewer than 11 rollouts leaves no validation data** — the smoke test collects 20 |
 
-**Notes.** Checkpoints are not shipped (`runs/**` is git-ignored), so step 4 and the probe
-need a retrain first; `frozen_report.py` and `n18_audit.py` read `notes/artifacts/` alone.
+**Notes.** Checkpoints are not shipped (`runs/**/*.pt` is git-ignored; the training
+curves `runs/**/log.jsonl` are tracked), so step 4 and the probe need a retrain first;
+`frozen_report.py` and `n18_audit.py` read `notes/artifacts/` alone.
 The off-pipeline families (`shuf`, `noact`, the norm-pinned `realdown`/`shufup`) and the
 2×2 that separates information from norm come from
 `train_mdnrnn.py --latents data/pilot_latents_shuf`, `train_mdnrnn_norm.py`, and
@@ -209,33 +219,16 @@ the crossover's position on a dose–response axis separates the **real** family
 
 ### Reproduce it
 
-> **Note on checkpoints.** Model checkpoints are not shipped (`runs/**` is git-ignored;
-> the full set is ~640 MB, mostly Adam state). Commands that probe a checkpoint need
-> `runs/*/best.pt` to exist first — retrain with the Quickstart commands above. The
-> frozen-credential commands run against `notes/artifacts/` alone.
+> **Note on checkpoints.** Model checkpoints are not shipped (`runs/**/*.pt` is
+> git-ignored; the full set is ≈ 429 MB across 87 files, mostly Adam state). Commands
+> that probe a checkpoint need `runs/*/best.pt` to exist first — retrain with the
+> pipeline commands above. The frozen-credential commands run against
+> `notes/artifacts/` alone.
 
-**Runs from the frozen credentials** (no checkpoints needed):
-
-```bash
-# re-render the write-up (reads notes/artifacts/*.csv only)
-python scripts/mdn/frozen_report.py
-
-# re-run the merged audit (hydrates notes/artifacts/ then runs the four stages)
-python scripts/mdn/n18_audit.py
-```
-
-**Needs checkpoints** (retrain, or drop in `runs/*/best.pt`):
-
-```bash
-# one rollout, all three temperatures
-python scripts/mdn/dream_controllability.py \
-    --mdn runs/mdn_pilot/best.pt --latents data/pilot_latents \
-    --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
-
-# the 15-row single-cycle table, and the seed-axis error bars
-python scripts/mdn/frozen_table_v5.py
-python scripts/mdn/seed_spread.py
-```
+Commands are in [Reproducing ▸ step 5](#reproducing) above. In short: `frozen_report.py`
+and `n18_audit.py` run from `notes/artifacts/` alone (Tier 1, no checkpoints); the probe
+and the two table scripts need `runs/*/best.pt` (Tier 2, retrain first). What each tier
+can and cannot do is stated in [`REPRODUCE.md`](REPRODUCE.md).
 
 The two structural rows (`real-struct`, `synth3-struct`) come from checkpoints whose own
 action files are entirely zero; their probe directory is overridden inside the script

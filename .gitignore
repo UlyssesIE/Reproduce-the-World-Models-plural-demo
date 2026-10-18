@@ -5,7 +5,7 @@
 #   data/raw/           ~55 GB   raw CarRacing frames, 26 MB per rollout
 #   data/*_frames.npy   ~2.8 GB  memmap frame cache (per 100 rollouts)
 #   data/*_latents/     ~150 MB  encoded latents, float16
-#   runs/               ~640 MB  checkpoints (two thirds is Adam state)
+#   runs/               ~429 MB  checkpoints (two thirds is Adam state)
 # All of it is regenerable by re-running the pipeline; see README.
 # =============================================================================
 

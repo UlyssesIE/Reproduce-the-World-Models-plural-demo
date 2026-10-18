@@ -15,7 +15,7 @@ and its exit code are given.
 | item | value |
 | --- | --- |
 | Python | 3.11.16 |
-| PyTorch | 2.5.1+cu121 |
+| PyTorch | 2.5.1 |
 | NumPy | 2.4.6 |
 | Gymnasium | 1.3.0 |
 | Key deps | `torch`, `gymnasium[box2d]`, `numpy`, `pillow`, `cma` |
@@ -33,10 +33,8 @@ with `pip install -e .`, after installing the CUDA torch wheels:
 These read only files tracked in `notes/artifacts/`. They run in a fresh `git clone`
 with **no `runs/*.pt` and no repository-root `tmp_*` files**.
 
-```bash
-python scripts/mdn/frozen_report.py     # re-render notes/Note11.md from frozen CSVs
-python scripts/mdn/n18_audit.py         # merge-hydrate credentials, run the four audit stages
-```
+Commands: `python3 scripts/mdn/frozen_report.py`, `python3 scripts/mdn/n18_audit.py`
+(see `README.md` §Reproducing, step 5).
 
 **Verified.** Exported `HEAD` with `git archive` into an empty directory (0 checkpoints,
 0 repository-root `tmp_*`), then ran both: **exit code 0** for each.
@@ -59,19 +57,15 @@ four stages. Facts these commands rest on:
 
 ## Tier 2 — reproducible by retraining (checkpoints not shipped)
 
-`README.md`'s *Reproduce it* block also lists commands that probe a model checkpoint.
-**No checkpoint is tracked in the repository** — `runs/**` is git-ignored and the working
-set is **≈ 429 MB** (mostly Adam state). A fresh clone therefore **cannot** run these
-without retraining first:
+`README.md`'s *Reproduce it* section also points to commands that probe a model checkpoint.
+**No checkpoint is tracked in the repository** — `runs/**/*.pt` is git-ignored; only the
+training curves (`runs/**/log.jsonl`) are tracked. The checkpoint working set is
+**≈ 429 MB** (mostly Adam state). A fresh clone therefore **cannot** run these without
+retraining first:
 
-```bash
-python scripts/mdn/train_mdnrnn.py    --latents data/pilot_latents --out runs/mdn_pilot
-python scripts/mdn/dream_controllability.py \
-    --mdn runs/mdn_pilot/best.pt --latents data/pilot_latents \
-    --rollout 0 --steps 200 --warmup 16 --reps 50 --taus 0.1,0.5,1.0
-python scripts/mdn/frozen_table_v5.py   # rebuilds tmp_v5_*.csv from checkpoints
-python scripts/mdn/seed_spread.py       # rebuilds tmp_seed_*.csv from checkpoints
-```
+Commands: `train_mdnrnn.py`, `dream_controllability.py`, `frozen_table_v5.py` and
+`seed_spread.py` — see `README.md` §Reproducing, steps 3 and 5. `frozen_table_v5.py`
+rebuilds `tmp_v5_*.csv` from checkpoints; `seed_spread.py` rebuilds `tmp_seed_*.csv`.
 
 This is a deliberate size trade-off, not an oversight: shipping the checkpoint set would
 add ~429 MB to a repository whose tracked content is already **~138 MB of probe arrays**
